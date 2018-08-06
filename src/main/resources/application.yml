@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/telnet?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: zhs
+    driverClassName: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    #redis的配置
+  redis:
+    database: 1
+    host: 127.0.0.7
+    port: 6379
+    password:
+
+
+#mybatis
+mybatis:
+    type-aliases-package: com.zhs.pojo
+    mapper-locations: classpath:mapper/*.xml
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
