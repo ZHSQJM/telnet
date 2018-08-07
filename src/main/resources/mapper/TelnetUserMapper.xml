@@ -6,14 +6,13 @@
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="realname" property="realname" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="phoneNumber" property="phonenumber" jdbcType="INTEGER" />
+    <result column="phoneNumber" property="phonenumber" jdbcType="VARCHAR" />
     <result column="disabeld" property="disabeld" jdbcType="VARCHAR" />
     <result column="idNumber" property="idnumber" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
     <result column="ext1" property="ext1" jdbcType="VARCHAR" />
     <result column="ext2" property="ext2" jdbcType="VARCHAR" />
   </resultMap>
-
 </mapper>
