@@ -26,6 +26,18 @@ public class UserServiceImpl extends BaseService<TelnetUser> implements UserServ
     private TelnetUserMapper telnetUserMapper;
 
 
+    @Override
+    public TelnetUser selectUserByName(String username) {
+
+        Example example = new Example(TelnetUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("username",username);
+        List<TelnetUser> userList = selectByExample(example);
+        if(userList.size()>0){
+            return userList.get(0);
+        }
+        return null;
+    }
 
     @Override
     @Transactional
