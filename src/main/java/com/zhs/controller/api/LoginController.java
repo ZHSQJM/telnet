@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController {
 
+
+    /**
+    跳转登录页面 以及认证没有通过的页面
+     */
     @RequestMapping(value="/login",method= RequestMethod.GET)
     public String login(){
         return "login";
