@@ -15,5 +15,9 @@
     <result column="ext1" property="ext1" jdbcType="VARCHAR" />
     <result column="ext2" property="ext2" jdbcType="VARCHAR" />
   </resultMap>
-
+  <select id="queryAll" resultType="com.zhs.pojo.TelnetResource">
+      	SELECT id,name,parentid,url,type,sort
+		FROM telnet_resource
+		ORDER BY sort ASC
+  </select>
 </mapper>

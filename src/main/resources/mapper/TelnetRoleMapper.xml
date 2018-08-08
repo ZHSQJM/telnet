@@ -10,5 +10,9 @@
     <result column="ext1" property="ext1" jdbcType="VARCHAR" />
     <result column="ext2" property="ext2" jdbcType="VARCHAR" />
   </resultMap>
-
+  <select id="queryRoleListWithSelected" parameterType="int" resultType="com.zhs.pojo.TelnetRole">
+    SELECT r.id,r.name,r.description,
+    (CASE WHEN (SELECT ur.rid FROM telnet_user_role ur WHERE ur.uid= #{id} AND ur.rid = r.id) THEN 1 ELSE 0 END) AS selected
+    FROM telnet_role r
+  </select>
 </mapper>
