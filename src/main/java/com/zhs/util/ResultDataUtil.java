@@ -11,6 +11,13 @@ public class ResultDataUtil {
         return  resultData;
     }
 
+    public static  ResultData success(String msg){
+        ResultData resultData=new ResultData();
+        resultData.setCode(200);
+        resultData.setMsg(msg);
+        resultData.setObj(null);
+        return  resultData;
+    }
     public static  ResultData success(Object object){
         ResultData resultData=new ResultData();
         resultData.setCode(200);
