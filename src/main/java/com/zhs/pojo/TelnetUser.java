@@ -1,17 +1,17 @@
 package com.zhs.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zhs.base.BasePojo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Data
-public class TelnetUser {
+public class TelnetUser  extends BasePojo {
     @ApiModelProperty(value = "主键，不需要填写，填写有可能报错")
     private Integer id;
 

@@ -1,12 +1,13 @@
 package com.zhs.pojo;
 
+import com.zhs.base.BasePojo;
 import lombok.Data;
 
 import java.util.Date;
 
 
 @Data
-public class TelnetRole {
+public class TelnetRole  extends BasePojo {
     private Integer id;
 
     private String name;
