@@ -1,6 +1,11 @@
 package com.zhs.service;
 
-import javax.management.relation.Role;
+import com.zhs.pojo.TelnetRole;
 
-public interface RoleService extends  IService<Role>{
+import java.util.List;
+
+
+public interface RoleService extends  IService<TelnetRole>{
+
+    List<TelnetRole> queryRoleListWithSelected(Integer id);
 }
