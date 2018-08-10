@@ -58,10 +58,10 @@ public class shiroConfig {
      * ShiroDialect，为了在thymeleaf里使用shiro的标签的bean
      * @return
      */
-    @Bean
+   /* @Bean
     public ShiroDialect shiroDialect() {
         return new ShiroDialect();
-    }
+    }*/
     /**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。
      * 注意：单独一个ShiroFilterFactoryBean配置是或报错的，因为在
@@ -95,10 +95,7 @@ public class shiroConfig {
         filterChainDefinitionMap.put("/auth/login", "anon");
         //跳转登录页面不拦截
         filterChainDefinitionMap.put("login", "anon");
-        filterChainDefinitionMap.put("/css/**","anon");
-        filterChainDefinitionMap.put("/js/**","anon");
-        filterChainDefinitionMap.put("/img/**","anon");
-        filterChainDefinitionMap.put("/font-awesome/**","anon");
+        filterChainDefinitionMap.put("/static/*", "anon"); //匿名访问静态资源
         //<!-- 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         //自定义加载权限资源关系
