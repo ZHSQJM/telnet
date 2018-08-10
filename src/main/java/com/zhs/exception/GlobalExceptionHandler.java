@@ -1,8 +1,10 @@
-package exception;
+package com.zhs.exception;
 
 import com.zhs.util.ResultData;
 import com.zhs.util.ResultDataUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -54,7 +56,11 @@ public class GlobalExceptionHandler {
         } else if (ex instanceof MissingServletRequestParameterException) {
             MissingServletRequestParameterException missingServletRequestParameterException = (MissingServletRequestParameterException) ex;
             msg = "缺少必要的参数[" + missingServletRequestParameterException.getMessage() + "]";
-        } else {
+        } else if(ex instanceof AuthenticationException){
+            msg="用户名密码错误";
+        } else if(ex instanceof UnknownAccountException){
+            msg="用户名不存在";
+        }else {
             msg ="未知错误";
         }
         return  ResultDataUtil.error(msg,null);
