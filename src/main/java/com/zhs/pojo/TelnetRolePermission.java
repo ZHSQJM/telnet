@@ -6,20 +6,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class TelnetUserRole implements Serializable {
+public class TelnetRolePermission  implements Serializable {
     private Long id;
 
-    private Long userId;
-
     private Long roleId;
+
+    private Long permissionId;
 
     private Integer status;
 
     private Date createdTime;
-
-    private Date updatedTime;
-
-
-
 
 }
