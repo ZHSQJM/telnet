@@ -2,35 +2,26 @@ package com.zhs.controller.api;
 
 
 import com.zhs.pojo.TelnetUser;
-import com.zhs.service.UserService;
-import com.zhs.util.MD5Utils;
-import com.zhs.util.ResultData;
-import com.zhs.util.ResultDataUtil;
+import com.zhs.util.AjaxResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("user")
 @Slf4j
 @Api(value = "UserController|一个用来测试swagger注解的控制器")
+@RequestMapping("sys/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-
-    @ApiOperation(value = "新增一个用户", notes = "新增用户")
-    @PostMapping("saveUser")
-    public ResultData saveTelnetUser(@Validated TelnetUser user) throws Exception{
-        user.setPassword(MD5Utils.md5(user.getPassword()));
-        return userService.saveTelnetUser(user);
-
+    //用来获取登陆用户的所有菜单
+    @PostMapping(value = "/menus")
+    @ApiOperation(value="根据用户编号获取用户姓名", notes="test: 仅1和2有正确返回")
+    public AjaxResult getUserMenu() {
+        Subject subject = SecurityUtils.getSubject();
+        TelnetUser sysUser = (TelnetUser) subject.getPrincipal();
+        return AjaxResult.ofSuccess(sysUser.getPermissionList());
     }
 }
