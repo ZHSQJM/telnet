@@ -1,8 +1,19 @@
 package com.zhs.mapper;
 
-import com.zhs.base.BaseMapper;
 import com.zhs.pojo.TelnetUser;
 
-public interface TelnetUserMapper extends BaseMapper<TelnetUser> {
+public interface TelnetUserMapper {
+    int deleteByPrimaryKey(Long id);
 
+    int insert(TelnetUser record);
+
+    int insertSelective(TelnetUser record);
+
+    TelnetUser selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(TelnetUser record);
+
+    int updateByPrimaryKey(TelnetUser record);
+
+    TelnetUser selectUserByUserName(String username);
 }

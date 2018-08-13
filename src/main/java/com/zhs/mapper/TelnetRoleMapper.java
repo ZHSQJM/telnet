@@ -1,13 +1,17 @@
 package com.zhs.mapper;
 
-import com.zhs.base.BaseMapper;
 import com.zhs.pojo.TelnetRole;
 
-import java.util.List;
+public interface TelnetRoleMapper {
+    int deleteByPrimaryKey(Long id);
 
-public interface TelnetRoleMapper extends BaseMapper<TelnetRole> {
+    int insert(TelnetRole record);
 
+    int insertSelective(TelnetRole record);
 
-    //根据用户的id查找出用户的角色
-    List<TelnetRole> queryRoleListWithSelected(Integer id);
+    TelnetRole selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(TelnetRole record);
+
+    int updateByPrimaryKey(TelnetRole record);
 }
