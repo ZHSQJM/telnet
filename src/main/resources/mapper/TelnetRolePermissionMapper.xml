@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zhs.mapper.TelnetUserRoleMapper" >
-  <resultMap id="BaseResultMap" type="com.zhs.pojo.TelnetUserRole" >
+<mapper namespace="com.zhs.mapper.TelnetRolePermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.zhs.pojo.TelnetRolePermission" >
     <id column="id_" property="id" jdbcType="BIGINT" />
-    <result column="user_id_" property="userId" jdbcType="BIGINT" />
     <result column="role_id_" property="roleId" jdbcType="BIGINT" />
+    <result column="permission_id_" property="permissionId" jdbcType="BIGINT" />
     <result column="status_" property="status" jdbcType="INTEGER" />
     <result column="created_time_" property="createdTime" jdbcType="TIMESTAMP" />
-    <result column="updated_time_" property="updatedTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id_, user_id_, role_id_, status_, created_time_, updated_time_
+    id_, role_id_, permission_id_, status_, created_time_
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from telnet_user_role
+    from telnet_role_permission
     where id_ = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from telnet_user_role
+    delete from telnet_role_permission
     where id_ = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.zhs.pojo.TelnetUserRole" >
-    insert into telnet_user_role (id_, user_id_, role_id_, 
-      status_, created_time_, updated_time_
-      )
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, 
-      #{status,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="com.zhs.pojo.TelnetRolePermission" >
+    insert into telnet_role_permission (id_, role_id_, permission_id_, 
+      status_, created_time_)
+    values (#{id,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.zhs.pojo.TelnetUserRole" >
-    insert into telnet_user_role
+  <insert id="insertSelective" parameterType="com.zhs.pojo.TelnetRolePermission" >
+    insert into telnet_role_permission
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id_,
       </if>
-      <if test="userId != null" >
-        user_id_,
-      </if>
       <if test="roleId != null" >
         role_id_,
+      </if>
+      <if test="permissionId != null" >
+        permission_id_,
       </if>
       <if test="status != null" >
         status_,
@@ -48,19 +45,16 @@
       <if test="createdTime != null" >
         created_time_,
       </if>
-      <if test="updatedTime != null" >
-        updated_time_,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=BIGINT},
-      </if>
       <if test="roleId != null" >
         #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="permissionId != null" >
+        #{permissionId,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -68,19 +62,16 @@
       <if test="createdTime != null" >
         #{createdTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatedTime != null" >
-        #{updatedTime,jdbcType=TIMESTAMP},
-      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zhs.pojo.TelnetUserRole" >
-    update telnet_user_role
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhs.pojo.TelnetRolePermission" >
+    update telnet_role_permission
     <set >
-      <if test="userId != null" >
-        user_id_ = #{userId,jdbcType=BIGINT},
-      </if>
       <if test="roleId != null" >
         role_id_ = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="permissionId != null" >
+        permission_id_ = #{permissionId,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         status_ = #{status,jdbcType=INTEGER},
@@ -88,19 +79,15 @@
       <if test="createdTime != null" >
         created_time_ = #{createdTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatedTime != null" >
-        updated_time_ = #{updatedTime,jdbcType=TIMESTAMP},
-      </if>
     </set>
     where id_ = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zhs.pojo.TelnetUserRole" >
-    update telnet_user_role
-    set user_id_ = #{userId,jdbcType=BIGINT},
-      role_id_ = #{roleId,jdbcType=BIGINT},
+  <update id="updateByPrimaryKey" parameterType="com.zhs.pojo.TelnetRolePermission" >
+    update telnet_role_permission
+    set role_id_ = #{roleId,jdbcType=BIGINT},
+      permission_id_ = #{permissionId,jdbcType=BIGINT},
       status_ = #{status,jdbcType=INTEGER},
-      created_time_ = #{createdTime,jdbcType=TIMESTAMP},
-      updated_time_ = #{updatedTime,jdbcType=TIMESTAMP}
+      created_time_ = #{createdTime,jdbcType=TIMESTAMP}
     where id_ = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
