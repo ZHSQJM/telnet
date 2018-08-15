@@ -1,17 +1,8 @@
 package com.zhs.mapper;
 
 import com.zhs.pojo.TelnetUserRole;
+import com.zhs.util.MyMapper;
 
-public interface TelnetUserRoleMapper {
-    int deleteByPrimaryKey(Long id);
+public interface TelnetUserRoleMapper extends MyMapper<TelnetUserRole> {
 
-    int insert(TelnetUserRole record);
-
-    int insertSelective(TelnetUserRole record);
-
-    TelnetUserRole selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(TelnetUserRole record);
-
-    int updateByPrimaryKey(TelnetUserRole record);
 }

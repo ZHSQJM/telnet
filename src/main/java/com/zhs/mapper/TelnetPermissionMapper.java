@@ -1,17 +1,16 @@
 package com.zhs.mapper;
 
 import com.zhs.pojo.TelnetPermission;
+import com.zhs.util.MyMapper;
 
-public interface TelnetPermissionMapper {
-    int deleteByPrimaryKey(Long id);
+import java.util.List;
+import java.util.Map;
 
-    int insert(TelnetPermission record);
+public interface TelnetPermissionMapper  extends MyMapper<TelnetPermission> {
 
-    int insertSelective(TelnetPermission record);
+    public List<TelnetPermission> queryAll();
 
-    TelnetPermission selectByPrimaryKey(Long id);
+    public List<TelnetPermission> loadUserResources(Map<String,Object> map);
 
-    int updateByPrimaryKeySelective(TelnetPermission record);
-
-    int updateByPrimaryKey(TelnetPermission record);
+   public List<TelnetPermission> findResourceByParentId(int parentid);
 }
