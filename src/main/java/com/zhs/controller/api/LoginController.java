@@ -8,10 +8,13 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -38,29 +41,33 @@ public class LoginController {
     //进入了首页的地址
     @GetMapping(value = {"/", "/index"})
     public String index(Map map) {
+
+        log.info("转发到首页");
         Subject subject = SecurityUtils.getSubject();
         TelnetUser sysUser = (TelnetUser) subject.getPrincipal();
-        map.put("realname", sysUser.getRealname());
+        map.put("realname", sysUser.getUsername());
         return "index";
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) boolean remember, Map<String, Object> map) {
-        UsernamePasswordToken upt = new UsernamePasswordToken(username, password, remember);
-        Subject subject = SecurityUtils.getSubject();
-        String errorMsg = null;
-        try {
-            subject.login(upt);
-        } catch (LockedAccountException e) {
-            errorMsg = "账号已被锁定，请联系管理员";
-        } catch (AuthenticationException e) {
-            log.error("Failed to login of username " + username + " with exception ", e);
-            errorMsg = "用户名或者密码错误";
+    public String login(HttpServletRequest request, TelnetUser user, Model model) {
+            if (StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {
+                request.setAttribute("msg", "用户名或密码不能为空！");
+                return "login";
+            }
+            Subject subject = SecurityUtils.getSubject();
+            UsernamePasswordToken token=new UsernamePasswordToken(user.getUsername(),user.getPassword());
+            try {
+                subject.login(token);
+                return "redirect:index";
+            }catch (LockedAccountException lae) {
+                token.clear();
+                request.setAttribute("msg", "用户已经被锁定不能登录，请与管理员联系！");
+                return "login";
+            } catch (AuthenticationException e) {
+                token.clear();
+                request.setAttribute("msg", "用户或密码不正确！");
+                return "login";
+            }
         }
-        if (errorMsg != null) {
-            map.put("errorMsg", errorMsg);
-            return "login";
-        }
-        return "redirect:/index";
-    }
 }

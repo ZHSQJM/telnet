@@ -22,6 +22,7 @@ public class UserController {
     public AjaxResult getUserMenu() {
         Subject subject = SecurityUtils.getSubject();
         TelnetUser sysUser = (TelnetUser) subject.getPrincipal();
-        return AjaxResult.ofSuccess(sysUser.getPermissionList());
+        //return AjaxResult.ofSuccess(sysUser.getPermissionList());
+        return  null;
     }
 }
