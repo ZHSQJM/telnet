@@ -1,50 +1,28 @@
 package com.zhs.pojo;
 
+
 import lombok.Data;
 
+import javax.persistence.Transient;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-
 
 @Data
 public class TelnetPermission implements Serializable {
-    private Long id;
+    private Integer id;
 
     private String name;
 
-    private String type;
+    private String resurl;
 
-    private String path;
+    private Integer type;
 
-    private String permission;
+    private Integer parentid;
 
-    private Long parentId;
+    private Integer sort;
 
-    private String parentIds;
+    //所有的子菜单  注解是为了在通用mapper时忽略
+    @Transient
+    private List<TelnetPermission> list;
 
-    private Integer state;
-
-    private Date createdTime;
-
-    private Date updatedTime;
-
-    private boolean checked;
-
-
-    private List<TelnetPermission> children;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TelnetPermission that = (TelnetPermission) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

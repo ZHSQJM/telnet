@@ -1,25 +1,15 @@
 package com.zhs.pojo;
 
+
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
-public class TelnetUserRole implements Serializable {
-    private Long id;
+public class TelnetUserRole  implements Serializable {
+    private Integer userid;
 
-    private Long userId;
-
-    private Long roleId;
-
-    private Integer status;
-
-    private Date createdTime;
-
-    private Date updatedTime;
-
-
+    private Integer roleid;
 
 
 }
