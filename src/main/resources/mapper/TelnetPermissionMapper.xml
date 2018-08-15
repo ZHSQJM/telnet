@@ -1,153 +1,37 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zhs.mapper.TelnetPermissionMapper" >
-  <resultMap id="BaseResultMap" type="com.zhs.pojo.TelnetPermission" >
-    <id column="id_" property="id" jdbcType="BIGINT" />
-    <result column="name_" property="name" jdbcType="VARCHAR" />
-    <result column="type_" property="type" jdbcType="VARCHAR" />
-    <result column="path_" property="path" jdbcType="VARCHAR" />
-    <result column="permission_" property="permission" jdbcType="VARCHAR" />
-    <result column="parent_id_" property="parentId" jdbcType="BIGINT" />
-    <result column="parent_ids_" property="parentIds" jdbcType="VARCHAR" />
-    <result column="state_" property="state" jdbcType="INTEGER" />
-    <result column="created_time_" property="createdTime" jdbcType="TIMESTAMP" />
-    <result column="updated_time_" property="updatedTime" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhs.mapper.TelnetPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.zhs.pojo.TelnetPermission">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="resUrl" jdbcType="VARCHAR" property="resurl" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="parentId" jdbcType="INTEGER" property="parentid" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id_, name_, type_, path_, permission_, parent_id_, parent_ids_, state_, created_time_, 
-    updated_time_
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from telnet_permission
-    where id_ = #{id,jdbcType=BIGINT}
+
+
+  <select id="queryAll" resultType="com.zhs.pojo.TelnetPermission">
+      	SELECT id,name,parentId,resUrl,type,sort
+		FROM telnet_permission
+		ORDER BY sort ASC
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from telnet_permission
-    where id_ = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.zhs.pojo.TelnetPermission" >
-    insert into telnet_permission (id_, name_, type_, 
-      path_, permission_, parent_id_, 
-      parent_ids_, state_, created_time_, 
-      updated_time_)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{path,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
-      #{parentIds,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, 
-      #{updatedTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.zhs.pojo.TelnetPermission" >
-    insert into telnet_permission
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id_,
-      </if>
-      <if test="name != null" >
-        name_,
-      </if>
-      <if test="type != null" >
-        type_,
-      </if>
-      <if test="path != null" >
-        path_,
-      </if>
-      <if test="permission != null" >
-        permission_,
-      </if>
-      <if test="parentId != null" >
-        parent_id_,
-      </if>
-      <if test="parentIds != null" >
-        parent_ids_,
-      </if>
-      <if test="state != null" >
-        state_,
-      </if>
-      <if test="createdTime != null" >
-        created_time_,
-      </if>
-      <if test="updatedTime != null" >
-        updated_time_,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="path != null" >
-        #{path,jdbcType=VARCHAR},
-      </if>
-      <if test="permission != null" >
-        #{permission,jdbcType=VARCHAR},
-      </if>
-      <if test="parentId != null" >
-        #{parentId,jdbcType=BIGINT},
-      </if>
-      <if test="parentIds != null" >
-        #{parentIds,jdbcType=VARCHAR},
-      </if>
-      <if test="state != null" >
-        #{state,jdbcType=INTEGER},
-      </if>
-      <if test="createdTime != null" >
-        #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedTime != null" >
-        #{updatedTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zhs.pojo.TelnetPermission" >
-    update telnet_permission
-    <set >
-      <if test="name != null" >
-        name_ = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        type_ = #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="path != null" >
-        path_ = #{path,jdbcType=VARCHAR},
-      </if>
-      <if test="permission != null" >
-        permission_ = #{permission,jdbcType=VARCHAR},
-      </if>
-      <if test="parentId != null" >
-        parent_id_ = #{parentId,jdbcType=BIGINT},
-      </if>
-      <if test="parentIds != null" >
-        parent_ids_ = #{parentIds,jdbcType=VARCHAR},
-      </if>
-      <if test="state != null" >
-        state_ = #{state,jdbcType=INTEGER},
-      </if>
-      <if test="createdTime != null" >
-        created_time_ = #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedTime != null" >
-        updated_time_ = #{updatedTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id_ = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.zhs.pojo.TelnetPermission" >
-    update telnet_permission
-    set name_ = #{name,jdbcType=VARCHAR},
-      type_ = #{type,jdbcType=VARCHAR},
-      path_ = #{path,jdbcType=VARCHAR},
-      permission_ = #{permission,jdbcType=VARCHAR},
-      parent_id_ = #{parentId,jdbcType=BIGINT},
-      parent_ids_ = #{parentIds,jdbcType=VARCHAR},
-      state_ = #{state,jdbcType=INTEGER},
-      created_time_ = #{createdTime,jdbcType=TIMESTAMP},
-      updated_time_ = #{updatedTime,jdbcType=TIMESTAMP}
-    where id_ = #{id,jdbcType=BIGINT}
-  </update>
+
+    <select id="loadUserResources" parameterType="java.util.HashMap" resultType="com.zhs.pojo.TelnetPermission">
+        SELECT re.id,re.name,re.parentId,re.resUrl
+        FROM telnet_permission re LEFT JOIN telnet_role_permission rr
+        ON re.id = rr.resourcesId
+        LEFT JOIN telnet_user_role ur
+        ON rr.roleId =ur.roleId
+        WHERE ur.userId=#{userid}
+        <if test="type != null">
+            AND re.type= #{type}
+        </if>
+        GROUP BY re.id
+        ORDER BY re.sort ASC
+    </select>
+
+    <select id="findResourceByParentId" resultType="com.zhs.pojo.TelnetPermission">
+        select * from  telnet_permission where parentid=#{parentid}
+    </select>
 </mapper>
