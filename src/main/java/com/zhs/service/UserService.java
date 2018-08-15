@@ -1,17 +1,20 @@
 package com.zhs.service;
 
-
 import com.zhs.pojo.TelnetUser;
-import com.zhs.util.ResultData;
 
-public interface UserService extends IService<TelnetUser> {
+/**
+ * Created with IDEA
+ * author:周华生
+ * Date:2018/8/15 10:58
+ * 描述:用户接口
+ **/
+public interface UserService  extends  IService<TelnetUser>{
+
+    /*PageInfo<TelnetUser> selectByPage(TelnetUser user, int start, int length);
 
 
 
-    TelnetUser selectUserByName(String username);
+    void delUser(Integer userid);*/
 
-
-    //保存一个用户
-    ResultData saveTelnetUser(TelnetUser user);
-
+    TelnetUser selectByUsername(String username);
 }
