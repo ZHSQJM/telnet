@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
 
@@ -21,9 +21,7 @@
 <div class="middle-box text-center loginscreen  animated fadeInDown">
 	<div>
 		<div>
-
 			<h1 class="logo-name">H+</h1>
-
 		</div>
 		<h3>欢迎使用 H+</h3>
         <form th:action="@{/login}" method="post" class="m-t" role="form">
@@ -41,12 +39,6 @@
 		</form>
 	</div>
 </div>
-
-<!-- Mainly scripts -->
-<script src="js/jquery-2.1.1.min.js"></script>
-<script src="js/bootstrap.min.js?v=3.4.0"></script>
-
-
 </body>
 
 </html>

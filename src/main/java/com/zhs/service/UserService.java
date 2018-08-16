@@ -1,5 +1,6 @@
 package com.zhs.service;
 
+import com.github.pagehelper.PageInfo;
 import com.zhs.pojo.TelnetUser;
 
 /**
@@ -10,11 +11,11 @@ import com.zhs.pojo.TelnetUser;
  **/
 public interface UserService  extends  IService<TelnetUser>{
 
-    /*PageInfo<TelnetUser> selectByPage(TelnetUser user, int start, int length);
+    PageInfo<TelnetUser> selectByPage(TelnetUser user, int start, int length);
 
 
 
-    void delUser(Integer userid);*/
+    /*void delUser(Integer userid);*/
 
     TelnetUser selectByUsername(String username);
 }

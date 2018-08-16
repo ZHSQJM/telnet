@@ -1,6 +1,5 @@
 package com.zhs.config;
 
-import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.github.pagehelper.util.StringUtil;
 import com.zhs.pojo.TelnetPermission;
 import com.zhs.service.PermissionService;
@@ -25,15 +24,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IDEA
- * author:zhouhuasheng
- * Date:2018/8/615:15
- * 描述:shiro的配置类
- **/
-
+ * Created by yangqj on 2017/4/23.
+ */
 @Configuration
-public class shiroConfig {
-
+public class ShiroConfig {
     @Autowired(required = false)
     private PermissionService resourcesService;
 
@@ -58,10 +52,10 @@ public class shiroConfig {
      * ShiroDialect，为了在thymeleaf里使用shiro的标签的bean
      * @return
      */
-   /* @Bean
-    public ShiroDialect shiroDialect() {
-        return new ShiroDialect();
-    }*/
+   // @Bean
+    //public ShiroDialect shiroDialect() {
+       // return new ShiroDialect();
+   // }
     /**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。
      * 注意：单独一个ShiroFilterFactoryBean配置是或报错的，因为在
@@ -75,6 +69,7 @@ public class shiroConfig {
      */
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager){
+        System.out.println("ShiroConfiguration.shirFilter()");
         ShiroFilterFactoryBean shiroFilterFactoryBean  = new ShiroFilterFactoryBean();
 
         // 必须设置 SecurityManager
@@ -82,7 +77,7 @@ public class shiroConfig {
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 登录成功后要跳转的链接
-        shiroFilterFactoryBean.setSuccessUrl("/index");
+      //  shiroFilterFactoryBean.setSuccessUrl("/usersPage");
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         //拦截器.
@@ -90,19 +85,16 @@ public class shiroConfig {
 
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
         filterChainDefinitionMap.put("/logout", "logout");
-        filterChainDefinitionMap.put("/favicon.ico","anon");
         filterChainDefinitionMap.put("/css/**","anon");
+        filterChainDefinitionMap.put("/favicon.ico","anon");
         filterChainDefinitionMap.put("/js/**","anon");
         filterChainDefinitionMap.put("/img/**","anon");
         filterChainDefinitionMap.put("/font-awesome/**","anon");
-        filterChainDefinitionMap.put("/fonts/**","anon");
-        filterChainDefinitionMap.put("/plugins.fullavatareditor/**","anon");
-        filterChainDefinitionMap.put("/tools.form-builder/**","anon");
         //<!-- 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         //自定义加载权限资源关系
         List<TelnetPermission> resourcesList = resourcesService.queryAll();
-        for(TelnetPermission resources:resourcesList){
+         for(TelnetPermission resources:resourcesList){
 
             if (StringUtil.isNotEmpty(resources.getResurl())) {
                 String permission = "perms[" + resources.getResurl()+ "]";
@@ -178,7 +170,7 @@ public class shiroConfig {
         redisManager.setPort(port);
         redisManager.setExpire(1800);// 配置缓存过期时间
         redisManager.setTimeout(timeout);
-        // redisManager.setPassword(password);
+       // redisManager.setPassword(password);
         return redisManager;
     }
 

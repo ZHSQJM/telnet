@@ -1,5 +1,4 @@
-<div id="wrapper">
-    <nav class="navbar-default navbar-static-side" role="navigation">
+<nav class="navbar-default navbar-static-side" role="navigation">
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
                 <li class="nav-header">
@@ -133,9 +132,8 @@
             </nav>
         </div>
     </div>
-</div>
-<script src="js/jquery-2.1.1.min.js"></script>
-
+<script src="../js/jquery-2.1.1.min.js"></script>
+<script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script>
     $.ajax({
         cache: true,
@@ -146,33 +144,31 @@
             console.log(data);
             for(var i=0;i<data.length;i++){  //id='s"+i+"'
                 var zhtml="";
-                var html="<li id='d"+i+"'><a href='#'> <i class='fa fa-th-large'></i><span class='nav-label'>"+data[i].name+"</span> <span id='s'></span></a></li>";
+                var html="<li id='d"+i+"'><a href='"+data[i].resurl+"'> <i class='fa fa-th-large'></i><span class='nav-label'>"+data[i].name+"</span> <span id='s"+i+"'></span></a></li>";
                //说明有2级菜单 给2级菜单添加>
                 $("#side-menu").append(html);
                 if(data[i].list.length>0){
-                  /*  var dad="s"+i;
-                    alert(dad);*/
-                    $("#s").attr("class",'fa arrow');
-                  /* for(var j=0;j<data[i].list.length;j++){
-                       if(j=0){
-                           zhtml="<ul class='nav nav-second-level'>";
+                    var sa="s"+i;
+                    $("#"+sa).attr("class",'fa arrow');
+                   for(var j=0;j<data[i].list.length;j++){
+                       if(j==0) {
+                           zhtml = "<ul class='nav nav-second-level'>";
                        }
                        zhtml +=" <li><a href='"+data[i].list[j].resurl+"'>"+data[i].list[j].name+"</a>" +
                            " </li>";
-                       if(j=data[i].list.length){
-                           zhtml+="</ul>";
+                       if(j==data[i].list.length) {
+                           zhtml += "</ul>";
                        }
                    }
                     var da="d"+i;
-                    $("#da").append(zhtml);*/
+                    $("#"+da).append(zhtml);
                }
             }
 
             //改变当前菜单样式
-          /*  $("#menu li a").each(function(){
+         /*  $("#side-menu li a").each(function(){
                 $this = $(this);
                 if($this[0].href==String(window.location)){
-                    $this.attr("href","javascript:;");
                     $this.parent().addClass("active");
                 }
             });*/
