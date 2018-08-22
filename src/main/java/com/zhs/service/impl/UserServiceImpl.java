@@ -1,55 +1,111 @@
 package com.zhs.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.zhs.pojo.TelnetUser;
+import com.zhs.mapper.TtRoleMapper;
+import com.zhs.mapper.TtUserMapper;
+import com.zhs.mapper.TtUserRoleMapper;
+import com.zhs.pojo.TtUser;
+import com.zhs.pojo.TtUserRole;
 import com.zhs.service.UserService;
+import com.zhs.util.PageInfo;
+import com.zhs.util.ResultData;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.StringUtil;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created with IDEA
  * author:周华生
- * Date:2018/8/15 11:00
- * 描述:
+ * Date:2018/8/18 20:06
+ * 描述: 用户相关操作的实现类
  **/
-
 @Service
-public class UserServiceImpl  extends BaseService<TelnetUser> implements UserService  {
+@Slf4j
+public class UserServiceImpl implements UserService {
 
+
+    @Autowired
+    private TtUserMapper userDao;
+
+    @Autowired
+    private TtUserRoleMapper trDao;
+
+    @Autowired
+    private TtRoleMapper roleDao;
     @Override
-    public PageInfo<TelnetUser> selectByPage(TelnetUser user, int start, int length) {
-            int page = start/length+1;
-            Example example = new Example(TelnetUser.class);
-            Example.Criteria criteria = example.createCriteria();
-            if (StringUtil.isNotEmpty(user.getUsername())) {
-                criteria.andLike("username", "%" + user.getUsername() + "%");
-            }
-            if (user.getId() != null) {
-                criteria.andEqualTo("id", user.getId());
-            }
-            if (user.getEnable() != null) {
-                criteria.andEqualTo("enable", user.getEnable());
-            }
-            //分页查询
-            PageHelper.startPage(page, length);
-            List<TelnetUser> userList = selectByExample(example);
-            return new PageInfo<>(userList);
+    public TtUser findUserByUserName(String username) {
+
+        return userDao.findUserByUserName(username);
     }
 
-    //根据用户名查找用户
     @Override
-    public TelnetUser selectByUsername(String username) {
-        Example example = new Example(TelnetUser.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("username",username);
-        List<TelnetUser> userList = selectByExample(example);
-        if(userList.size()>0){
-            return userList.get(0);
+    @Transactional
+    public ResultData addUser(TtUser user) {
+        TtUser ur=new TtUser();
+        if(userDao.findUserByUserName(user.getUsername())!=null){
+          return  ResultData.ofFail("该用户名已被注册");
+        }else {
+            ur.setUsername(user.getUsername());
+            ur.setPassword(user.getPassword());
+            ur.setPhone(user.getPhone());
+            ur.setEnable(0);
+            ur.setCreatetime(new Date());
+            ur.setUpdatetime(new Date());
+            userDao.insert(ur);
+            TtUserRole tur = new TtUserRole();
+            tur.setUserid(ur.getId());
+            tur.setRoleid(2);
+            tur.setDisable(0);
+            tur.setCreatetime(new Date());
+            tur.setUpdatetime(new Date());
+            trDao.insert(tur);
+            return ResultData.ofSuccess("");
         }
-        return null;
     }
+
+    @Override
+    @Transactional
+    public ResultData delUser(Integer id) {
+        userDao.delUser(id);
+        List<TtUserRole> list=trDao.selbyuserid(id);
+        for(TtUserRole tur:list){
+            trDao.delUserRole(tur.getId());
+        }
+        return ResultData.ofSuccess("");
+    }
+
+    @Override
+    public ResultData searchUser(TtUser user, Integer currentPage, Integer pageSize) {
+        int totalRecords=userDao.count();
+        PageHelper.startPage(currentPage, pageSize);
+        List<TtUser> list=userDao.searchUser(user);
+        PageInfo<TtUser> pageInfo=new PageInfo<>(totalRecords,currentPage,pageSize,list);
+        return ResultData.ofSuccess(pageInfo);
+    }
+
+    @Override
+    public ResultData updateUser(@Validated TtUser user) {
+        user.setUpdatetime(new Date());
+                userDao.updateByPrimaryKeySelective(user);
+        return ResultData.ofSuccess("");
+    }
+
+    @Override
+    public ResultData findUserById(Integer id) {
+        TtUser user=userDao.selectByPrimaryKey(id);
+        return ResultData.ofSuccess(user);
+    }
+
+    @Override
+    public ResultData findRoleByUserId(int userid) {
+        return ResultData.ofSuccess(  roleDao.findRoleById(userid));
+    }
+
+
 }
