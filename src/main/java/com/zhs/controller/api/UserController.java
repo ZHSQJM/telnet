@@ -1,45 +1,79 @@
 package com.zhs.controller.api;
 
-
-import com.github.pagehelper.PageInfo;
-import com.zhs.pojo.TelnetUser;
+import com.zhs.pojo.TtUser;
 import com.zhs.service.UserService;
-import com.zhs.util.AjaxResult;
+import com.zhs.util.ResultData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * Created with IDEA
+ * author:周华生
+ * Date:2018/8/20 17:24
+ * 描述:
+ **/
 
 @RestController
+@RequestMapping("/user")
 @Slf4j
-@Api(value = "UserController|一个用来测试swagger注解的控制器")
-@RequestMapping("sys/user")
+@Api(value = "这个用来测试用户相关的接口")
 public class UserController {
-
 
     @Autowired
     private UserService userService;
-    //用来获取登陆用户的所有菜单
-        @ApiOperation(value="根据用户编号获取用户姓名", notes="test: 仅1和2有正确返回")
-        @GetMapping("/userlist")
-        public Map<String,Object> getAll(TelnetUser user, String draw,
-        @RequestParam(required = false, defaultValue = "1") int start,
-        @RequestParam(required = false, defaultValue = "10") int length){
-            Map<String,Object> map = new HashMap<>();
-            PageInfo<TelnetUser> pageInfo = userService.selectByPage(user, start, length);
-            System.out.println("pageInfo.getTotal():"+pageInfo.getTotal());
-            map.put("draw",draw);
-            map.put("recordsTotal",pageInfo.getTotal());
-            map.put("recordsFiltered",pageInfo.getTotal());
-            map.put("data", pageInfo.getList());
-            return map;
+
+    //分页获取用户列表
+    @ApiOperation(value="分页查找用户列表", notes="返回的是分页回来的信息")
+    @PostMapping(value="getAllUsers")
+    public ResultData getAllUsers(TtUser user, @RequestParam(required = false, defaultValue = "1") int currentPage,
+                                  @RequestParam(required = false, defaultValue = "10") int pageSize){
+
+        return  userService.searchUser(user,currentPage,pageSize);
+    }
+
+    @ApiOperation(value="新增用户的接口", notes="返回的是是否添加成功")
+    @PostMapping(value="add")
+    public ResultData addUser(@Validated TtUser user){
+        return  userService.addUser(user);
     }
 
 
+    @GetMapping(value="del")
+    @ApiOperation(value="删除用户的接口", notes="返回的是是否删除成功")
+    public ResultData delUser(int id){
+        return  userService.delUser(id);
+    }
+
+
+    @PostMapping(value="update")
+    @ApiOperation(value="更新用户的接口", notes="返回的是是否更新成功")
+    public  ResultData updateUser(TtUser user){
+
+        return userService.updateUser(user);
+    }
+
+    @GetMapping(value="getUser")
+    @ApiOperation(value="获取用户的接口", notes="返回的获取的用户信息成功")
+    public  ResultData findUserById(Integer id){
+        if(StringUtils.isEmpty(id)){
+            return ResultData.ofFail("请传入必须参数");
+        }
+        return userService.findUserById(id);
+    }
+
+    @GetMapping(value="getRole")
+    @ApiOperation(value="获取用户的角色的接口", notes="返回的获取的用户角色信息成功")
+    public  ResultData findRoleById(Integer id){
+        if(StringUtils.isEmpty(id)){
+            return ResultData.ofFail("请传入必须参数");
+        }
+        return userService.findRoleByUserId(id);
+    }
 }
