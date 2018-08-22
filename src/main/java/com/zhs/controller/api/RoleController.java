@@ -1,5 +1,6 @@
 package com.zhs.controller.api;
 
+import com.zhs.pojo.TtRole;
 import com.zhs.service.RoleService;
 import com.zhs.util.ResultData;
 import io.swagger.annotations.Api;
@@ -7,9 +8,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -47,12 +47,39 @@ public class RoleController {
     }
 
     //查找角色的权限
-    @PostMapping("/permissions")
+    @GetMapping("/permissions")
     @ApiOperation(value="查看角色的权限", notes="返回的是角色的权限信息")
     public  ResultData findPermissionByRoleId(Integer roleid){
         if(StringUtils.isEmpty(roleid)){
             return  ResultData.ofFail("请传入必传参数");
         }
          return  roleService.findPermissionByRoleId(roleid);
+    }
+
+    //添加用户
+    @PostMapping("/add")
+    @ApiOperation(value="添加用户", notes="返回的时用户是否添加成功")
+    public ResultData addRole(@Validated TtRole role){
+        return roleService.addRole(role);
+    }
+
+
+    //删除用户
+    @PostMapping("/del")
+    @ApiOperation(value="删除用户", notes="返回的时用户是否删除成功")
+    public ResultData delRole( int roleid){
+        if(StringUtils.isEmpty(roleid)){
+            return ResultData.ofFail("请输入必传的参数");
+        }
+        return roleService.delRole(roleid);
+    }
+
+    //角色列表//模糊查询
+    @GetMapping("/getAllRoles")
+    @ApiOperation(value="删除用户", notes="返回的时用户是否删除成功")
+    public ResultData getAllRoles(TtRole role, @RequestParam(required = false, defaultValue = "1") int currentPage,
+    @RequestParam(required = false, defaultValue = "10") int pageSize){
+
+        return roleService.searchRole(role,currentPage,pageSize);
     }
 }
