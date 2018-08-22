@@ -1,21 +1,30 @@
 package com.zhs.service;
 
-import com.github.pagehelper.PageInfo;
-import com.zhs.pojo.TelnetUser;
+import com.zhs.pojo.TtUser;
+import com.zhs.util.ResultData;
+
+import java.util.List;
 
 /**
  * Created with IDEA
  * author:周华生
- * Date:2018/8/15 10:58
- * 描述:用户接口
+ * Date:2018/8/18 20:05
+ * 描述: 用户相关的接口
  **/
-public interface UserService  extends  IService<TelnetUser>{
-
-    PageInfo<TelnetUser> selectByPage(TelnetUser user, int start, int length);
+public interface UserService {
 
 
+    TtUser findUserByUserName(String username);
 
-    /*void delUser(Integer userid);*/
+    ResultData addUser(TtUser user);
 
-    TelnetUser selectByUsername(String username);
+    ResultData delUser(Integer id);
+
+    ResultData searchUser(TtUser user,Integer currentPage,Integer pageSize);
+
+    ResultData updateUser(TtUser user);
+
+    ResultData findUserById(Integer id);
+
+    ResultData findRoleByUserId(int userid);
 }
