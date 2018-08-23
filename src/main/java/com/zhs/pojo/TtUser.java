@@ -1,5 +1,6 @@
 package com.zhs.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -41,8 +42,10 @@ public class TtUser implements Serializable {
 
     private String address;
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date createtime;
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date updatetime;
 
     private String ext1;

@@ -61,9 +61,14 @@ public class LogAspect {
        String username= request.getParameter("username");
        TtUser user= userService.findUserByUserName(username);
         TtLoginLog tll=new TtLoginLog();
-        tll.setLoginid(user.getId());
+        if(user==null){
+           tll.setLoginid(0);
+            tll.setLoginname(username);
+        }else {
+            tll.setLoginid(user.getId());
+            tll.setLoginname(user.getUsername());
+        }
         tll.setLogintime(new Date());
-        tll.setLoginname(user.getUsername());
         tll.setLoginip(request.getRemoteAddr());
         // 记录下请求内容
         logService.addLoginLog(tll);
@@ -72,13 +77,11 @@ public class LogAspect {
     //获取请求时间
     @Before("requestLog()")
     public void doBeforeRequest(){
-        System.out.println("进入了请求之前的方法");
         start=System.currentTimeMillis();
     }
     //这是记录请求。的日志
     @After("requestLog()")
     public void deBeforeRequest(JoinPoint joinPoint) throws Throwable {
-        System.out.println("进入了请求之后的方法");
         TtReqLog ttReqLog=new TtReqLog();
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

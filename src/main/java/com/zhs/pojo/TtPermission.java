@@ -1,5 +1,6 @@
 package com.zhs.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -30,8 +31,10 @@ public class TtPermission implements Serializable {
 
     private Integer sort;
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date createtime;
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date updatetime;
 
     private String ext1;

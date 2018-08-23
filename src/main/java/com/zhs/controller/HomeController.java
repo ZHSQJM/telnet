@@ -6,8 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by yangqj on 2017/4/21.
@@ -18,18 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @ApiOperation(value="跳转登录页面", notes="返回的是页面")
-    @GetMapping(value="/tologin")
+    @RequestMapping(value="/tologin")
     public String login(){
-        log.info("进入到登陆页面");
-        return "login";
+        log.info("进入登录页面");
+        return "index/login";
     }
-
-
     @ApiOperation(value="跳转首页", notes="返回的是页面")
     @GetMapping(value = {"/index","/"})
     public String index(){
-        log.info("进入首页");
-        return  "index";
+        return  "index/index";
     }
     @ApiOperation(value="跳转未授权的页面", notes="返回的是页面")
     @GetMapping("/unauthorized")

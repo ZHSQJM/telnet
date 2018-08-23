@@ -37,10 +37,12 @@ public class GlobalExceptionHandler {
     //shiro的异常捕获
     @ExceptionHandler(UnknownAccountException.class)
     public ResultData handleUnknownAccountException(Exception e){
+        log.info("进入全局异常，用户名不存在");
             return ResultData.ofFail("用户名不存在");
     }
     @ExceptionHandler(AuthenticationException.class)
     public ResultData handleAuthenticationException(Exception e){
+        log.info("进入全局异常，用户或者密码不正确");
         return ResultData.ofFail("用户或密码不正确！");
     }
 

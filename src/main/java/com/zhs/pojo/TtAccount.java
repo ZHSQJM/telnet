@@ -1,5 +1,6 @@
 package com.zhs.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -29,8 +30,10 @@ public class TtAccount {
     @NotNull(message = "密码不能为空")
     private String password;
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date createtime;
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date updatetime;
 
     private Integer userid;

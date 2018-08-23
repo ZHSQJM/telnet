@@ -1,5 +1,6 @@
 package com.zhs.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -17,8 +18,10 @@ public class TtRole implements Serializable {
 
     private String roledesc;
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date createtime;
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date updatetime;
 
     private String ext1;

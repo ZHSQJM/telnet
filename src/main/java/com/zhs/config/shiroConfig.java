@@ -66,15 +66,12 @@ public class ShiroConfig {
       filterMap.put("/js/**","anon");
       filterMap.put("/css/**","anon");
       filterMap.put("/favicon.ico","anon");
-
+      filterMap.put("/fonts/**","anon");
+      filterMap.put("/image/**","anon");
+      filterMap.put("/assets/**","anon");
       filterMap.put("/login","anon");
-
-
       List<TtPermission> list=permissionService.queryAll();
-
-
       for(TtPermission tp: list) {
-          log.info("da"+tp);
           if (StringUtil.isNotEmpty(tp.getResurl())) {
               String perm = "perms[" + tp.getPerms() + "]";
               filterMap.put(tp.getResurl(), perm);

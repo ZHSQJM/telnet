@@ -35,7 +35,6 @@ public class TtRealm extends AuthorizingRealm {
     //执行授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("执行授权逻辑");
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         TtUser user= (TtUser) SecurityUtils.getSubject().getPrincipal();
@@ -44,7 +43,6 @@ public class TtRealm extends AuthorizingRealm {
 
        List<TtPermission> list= permissionService.loadAllPer(map);
        for(TtPermission tp:list){
-           log.info("该用户的权限是"+tp.getPerms());
            info.addStringPermission(tp.getPerms());
        }
         return info;
@@ -53,12 +51,10 @@ public class TtRealm extends AuthorizingRealm {
     //执行认证逻辑
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-       System.out.println("执行认证逻辑");
         UsernamePasswordToken  token=(UsernamePasswordToken)authenticationToken;
        String name= token.getUsername();
         TtUser user=userService.findUserByUserName(name);
         if(user==null){
-            log.info("们没有该用户");
              return  null; //shiro会抛出异常unkonow
         }
         //password一定时数据库的密码

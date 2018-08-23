@@ -36,5 +36,7 @@ public class ResultData {
         return new ResultData(100, errorMsg, false, null);
     }
 
-
+    //public static ResultData ofFail(String errorMsg,Object data) {
+     //   return new ResultData(100, errorMsg, false, data);
+ //   }
 }

@@ -8,6 +8,7 @@ import com.zhs.pojo.TtUser;
 import com.zhs.service.AccountService;
 import com.zhs.util.PageInfo;
 import com.zhs.util.ResultData;
+import com.zhs.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -41,6 +42,9 @@ public class AccountServiceImpl implements AccountService {
         }
         PageHelper.startPage(currentPage, pageSize);
       List<TtAccount> list=  accountMapper.searchAccount(account);
+      for(TtAccount ta:list){
+          ta.setExt1( userDao.selectByPrimaryKey(ta.getUserid()).getRealname());
+      }
         totalRecords=list.size();
 
         PageInfo<TtAccount> pageInfo=new PageInfo<>(totalRecords,currentPage,pageSize,list);
@@ -77,6 +81,7 @@ public class AccountServiceImpl implements AccountService {
             log.info("添加成功");
         return ResultData.ofSuccess("");
         }
+
 
     }
 
