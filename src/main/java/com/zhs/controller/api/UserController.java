@@ -54,8 +54,11 @@ public class UserController {
 
     @PostMapping(value="update")
     @ApiOperation(value="更新用户的接口", notes="返回的是是否更新成功")
-    public  ResultData updateUser(TtUser user){
+    public  ResultData updateUser(@Validated  TtUser user){
 
+        if(StringUtils.isEmpty(user.getId())){
+            return ResultData.ofFail("请传入必传的参数");
+        }
         return userService.updateUser(user);
     }
 

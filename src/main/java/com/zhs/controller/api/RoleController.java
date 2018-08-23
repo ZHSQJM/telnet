@@ -74,6 +74,16 @@ public class RoleController {
         return roleService.delRole(roleid);
     }
 
+    //修改角色
+    @PostMapping("/update")
+    @ApiOperation(value="修改用户", notes="返回的时用户是否修改成功")
+    public ResultData updateRole(@Validated TtRole role){
+        if(StringUtils.isEmpty(role.getId())){
+            return ResultData.ofFail("请传入必传的参数");
+        }
+        return roleService.updateRole(role);
+    }
+
     //角色列表//模糊查询
     @GetMapping("/getAllRoles")
     @ApiOperation(value="删除用户", notes="返回的时用户是否删除成功")

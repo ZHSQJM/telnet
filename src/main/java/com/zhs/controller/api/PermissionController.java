@@ -8,7 +8,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +27,7 @@ import java.util.Map;
  **/
 
 @RestController
-@RequestMapping("perm")
+@RequestMapping("per")
 @Api(value = "这是权限相关的接口的接口")
 public class PermissionController {
 
@@ -42,9 +45,27 @@ public class PermissionController {
         return  permissionService.loadAllPer(map);
     }
 
-    @GetMapping("add")
+    @PostMapping("add")
     @ApiOperation(value="添加权限", notes="增加的权限")
-    public ResultData addPermission( TtPermission tttPermission){
+    public ResultData addPermission( @Validated TtPermission tttPermission){
          return permissionService.addpermision(tttPermission);
+    }
+
+    @PostMapping("del")
+    @ApiOperation(value="删除权限", notes="删除的权限")
+    public ResultData delPermission(Integer id){
+        if(StringUtils.isEmpty(id)){
+            return  ResultData.ofFail("请传入必传参数");
+        }
+        return permissionService.delPermission(id);
+    }
+
+    @PostMapping("update")
+    @ApiOperation(value="修改权限", notes="修改权限是否成功")
+    public ResultData updatePermission( @Validated TtPermission ttPermission){
+        if(StringUtils.isEmpty(ttPermission.getId())){
+            return  ResultData.ofFail("请传入必传参数");
+        }
+        return permissionService.updatePermission(ttPermission);
     }
 }

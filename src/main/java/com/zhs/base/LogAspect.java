@@ -47,9 +47,9 @@ public class LogAspect {
     public void webLog(){
     }
     //
-    @Pointcut(value = "execution(* com.zhs.controller.*.*(..))")
+    @Pointcut(value = "execution(* com.zhs.controller.*.*.*(..))")
     public void requestLog(){
-        start=System.currentTimeMillis();
+
     }
 
     //这是记录登录的日志
@@ -72,11 +72,13 @@ public class LogAspect {
     //获取请求时间
     @Before("requestLog()")
     public void doBeforeRequest(){
+        System.out.println("进入了请求之前的方法");
         start=System.currentTimeMillis();
     }
     //这是记录请求。的日志
     @After("requestLog()")
     public void deBeforeRequest(JoinPoint joinPoint) throws Throwable {
+        System.out.println("进入了请求之后的方法");
         TtReqLog ttReqLog=new TtReqLog();
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -94,6 +96,8 @@ public class LogAspect {
         TtUser user=(TtUser)subject.getPrincipal();
         if(user!=null) {
             ttReqLog.setUsername(user.getUsername());
+        }else{
+            ttReqLog.setUsername(request.getParameter("username"));
         }
         //请求者的
         String ip=request.getRemoteAddr();

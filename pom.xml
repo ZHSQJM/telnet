@@ -82,7 +82,13 @@
             <version>2.0.0</version>
         </dependency>
 
-   <!-- shiro的jar-->
+        <!-- 添加aop依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- shiro的jar-->
         <dependency>
             <groupId>org.crazycake</groupId>
             <artifactId>shiro-redis</artifactId>

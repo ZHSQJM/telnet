@@ -24,4 +24,10 @@ public interface PermissionService {
 
     //添加权限
     ResultData addpermision(TtPermission ttPermission);
+
+    //删除权限
+    ResultData delPermission(int perid);
+
+    //更新权限
+    ResultData updatePermission(TtPermission ttPermission);
 }

@@ -1,12 +1,15 @@
 package com.zhs.service.impl;
 
 import com.zhs.mapper.TtPermissionMapper;
+import com.zhs.mapper.TtRolePermissionMapper;
 import com.zhs.pojo.TtPermission;
+import com.zhs.pojo.TtRolePermission;
 import com.zhs.service.PermissionService;
 import com.zhs.util.ResultData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +28,12 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Autowired
     private TtPermissionMapper permmissionDao;
+
+    @Autowired
+    private TtRolePermissionMapper tpDao;
+
     @Override
+    @Transactional
     public  List<TtPermission>  loadAllPer(Map<String,Object> map) {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -50,7 +58,9 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    @Transactional
     public ResultData addpermision(TtPermission ttPermission) {
+        int sort=permmissionDao.maxsort();
         TtPermission tp=new TtPermission();
         tp.setCreatetime(new Date());
         tp.setUpdatetime(new Date());
@@ -62,8 +72,34 @@ public class PermissionServiceImpl implements PermissionService {
         tp.setParentid(ttPermission.getParentid());
         tp.setResurl(ttPermission.getResurl());
         tp.setType(ttPermission.getType());
-        tp.setSort(ttPermission.getSort());
+        tp.setDisable(0);
+        tp.setSort(sort+1);
         permmissionDao.insert(tp);
+        return ResultData.ofSuccess("");
+    }
+    @Override
+    @Transactional
+    public ResultData delPermission(int perid) {
+        //删除权限的同时  将角色-权限表中的对应关系也删除
+
+        //获取关联表中的该条权限的数据
+        List<TtRolePermission> list=tpDao.selPermissinByRourseId(perid);
+
+        //删除关联表的权限数据
+        if(list.size()>0&&list!=null){
+            for(TtRolePermission trp:list){
+                tpDao.delURolePermission(trp.getId());
+            }
+        }
+
+        permmissionDao.delPermission(perid);
+        return ResultData.ofSuccess("");
+    }
+
+    @Override
+    public ResultData updatePermission(TtPermission ttPermission) {
+        ttPermission.setUpdatetime(new Date());
+        permmissionDao.updateByPrimaryKeySelective(ttPermission);
         return ResultData.ofSuccess("");
     }
 }

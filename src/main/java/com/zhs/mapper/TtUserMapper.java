@@ -25,4 +25,6 @@ public interface TtUserMapper {
 
    /* 查询总记录*/
     int count();
+
+    TtUser findUserByRealName(String realname);
 }

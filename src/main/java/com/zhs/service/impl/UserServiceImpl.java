@@ -82,15 +82,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultData searchUser(TtUser user, Integer currentPage, Integer pageSize) {
-        int totalRecords=userDao.count();
+        int totalRecords=0;
+        if(user.getRealname()==null||user.getPhone()==null||user.getUsername()==null) {
+            totalRecords = userDao.count();
+        }
         PageHelper.startPage(currentPage, pageSize);
         List<TtUser> list=userDao.searchUser(user);
+        totalRecords=list.size();
+
+
         PageInfo<TtUser> pageInfo=new PageInfo<>(totalRecords,currentPage,pageSize,list);
         return ResultData.ofSuccess(pageInfo);
     }
 
     @Override
-    public ResultData updateUser(@Validated TtUser user) {
+    public ResultData updateUser(TtUser user) {
         user.setUpdatetime(new Date());
                 userDao.updateByPrimaryKeySelective(user);
         return ResultData.ofSuccess("");

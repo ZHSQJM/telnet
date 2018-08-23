@@ -117,10 +117,22 @@ public class roleServerimpl implements RoleService {
 
     @Override
     public ResultData searchRole(TtRole role, Integer currentPage, Integer pageSize) {
-        int totalRecords= roleDao.count();
+        int totalRecords=0;
+        if(role.getRolename()==null){
+            totalRecords= roleDao.count();
+        }
          PageHelper.startPage(currentPage, pageSize);
-         List<TtRole> list= roleDao.searchRole(role);
+        List<TtRole> list= roleDao.searchRole(role);
+        totalRecords=list.size();
+
         PageInfo<TtRole> pageInfo=new PageInfo<>(totalRecords,currentPage,pageSize,list);
         return ResultData.ofSuccess(pageInfo);
+    }
+
+    @Override
+    public ResultData updateRole(TtRole role) {
+        role.setUpdatetime(new Date());
+        roleDao.updateByPrimaryKeySelective(role);
+        return ResultData.ofSuccess("");
     }
 }

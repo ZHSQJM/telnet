@@ -27,4 +27,7 @@ public interface RoleService {
     ResultData delRole(Integer id);
 //分页获取角色列表
     ResultData searchRole(TtRole role, Integer currentPage, Integer pageSize);
+
+    //更新角色
+    ResultData updateRole(TtRole role);
 }

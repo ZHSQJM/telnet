@@ -19,12 +19,15 @@ public interface TtPermissionMapper {
 
     int updateByPrimaryKey(TtPermission record);
 
-  List<TtPermission> loadAllPer(Map<String,Object> map);
+    List<TtPermission> loadAllPer(Map<String,Object> map);
 
-  List<TtPermission> queryAll();
+    List<TtPermission> queryAll();
 
-  List<TtPermission> findPtByParentid(Integer parentid);
-
+    List<TtPermission> findPtByParentid(Integer parentid);
     //根据用户的id查找用户的权限
     List<TtPermission> findPermissinByroleId(int roleid);
+    //获取sort的最大值
+    Integer maxsort();
+
+    void delPermission(int perid);
 }
