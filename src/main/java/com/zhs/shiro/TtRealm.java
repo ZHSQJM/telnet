@@ -41,8 +41,10 @@ public class TtRealm extends AuthorizingRealm {
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("userid",user.getId());
 
+        log.info("加载了权限+”====================");
        List<TtPermission> list= permissionService.loadAllPer(map);
        for(TtPermission tp:list){
+           log.info(tp.getPerms());
            info.addStringPermission(tp.getPerms());
        }
         return info;
