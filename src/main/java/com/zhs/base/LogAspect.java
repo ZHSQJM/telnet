@@ -9,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -41,7 +38,7 @@ public class LogAspect {
     private UserService userService;
 
 
-    private  long start;//开始时间
+    ThreadLocal<Long> startTime = new ThreadLocal<>();
 
     @Pointcut(value = "execution(* com.zhs.controller.api.LoginController.login(..))")
     public void webLog(){
@@ -77,10 +74,10 @@ public class LogAspect {
     //获取请求时间
     @Before("requestLog()")
     public void doBeforeRequest(){
-        start=System.currentTimeMillis();
+        startTime.set(System.currentTimeMillis());
     }
     //这是记录请求。的日志
-    @After("requestLog()")
+    @AfterReturning("requestLog()")
     public void deBeforeRequest(JoinPoint joinPoint) throws Throwable {
         TtReqLog ttReqLog=new TtReqLog();
         // 接收到请求，记录请求内容
@@ -108,7 +105,7 @@ public class LogAspect {
         int code=response.getStatus();
         ttReqLog.setCode(String.valueOf(code));
         long end = System.currentTimeMillis();
-        long time=end-start;
+        long time=end-startTime.get();
         ttReqLog.setReqtime(new Date());
         ttReqLog.setTime(time);
         // 记录下请求内容
