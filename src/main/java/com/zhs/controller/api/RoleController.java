@@ -88,8 +88,22 @@ public class RoleController {
     @GetMapping("/getAllRoles")
     @ApiOperation(value="删除用户", notes="返回的时用户是否删除成功")
     public ResultData getAllRoles(TtRole role, @RequestParam(required = false, defaultValue = "1") int currentPage,
-    @RequestParam(required = false, defaultValue = "10") int pageSize){
+    @RequestParam(required = false, defaultValue = "5") int pageSize){
 
         return roleService.searchRole(role,currentPage,pageSize);
+    }
+
+    //恢复角色的时候，无法恢复该觉得的权限 ，需要重新分配权限
+    @PostMapping("/huifu")
+    @ApiOperation(value="恢复角色", notes="返回的时用户是否恢复成功")
+    public ResultData getAllRoles(int roleid){
+        return roleService.huifuRole(roleid);
+    }
+
+    //恢复角色的时候，无法恢复该觉得的权限 ，需要重新分配权限
+    @GetMapping("/getrole")
+    @ApiOperation(value="恢复角色", notes="返回的时用户是否恢复成功")
+    public ResultData getRole(int id){
+        return roleService.getRole(id);
     }
 }

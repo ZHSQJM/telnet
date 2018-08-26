@@ -10,10 +10,7 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +48,7 @@ public class PermissionController {
          return permissionService.addpermision(tttPermission);
     }
 
-    @PostMapping("del")
+    @GetMapping("del")
     @ApiOperation(value="删除权限", notes="删除的权限")
     public ResultData delPermission(Integer id){
         if(StringUtils.isEmpty(id)){
@@ -60,12 +57,20 @@ public class PermissionController {
         return permissionService.delPermission(id);
     }
 
-    @PostMapping("update")
+    @GetMapping("update")
     @ApiOperation(value="修改权限", notes="修改权限是否成功")
     public ResultData updatePermission( @Validated TtPermission ttPermission){
         if(StringUtils.isEmpty(ttPermission.getId())){
             return  ResultData.ofFail("请传入必传参数");
         }
         return permissionService.updatePermission(ttPermission);
+    }
+
+    @GetMapping("/getAllPerms")
+    @ApiOperation(value="查找所有的权限", notes="查找权限是否成功")
+    public ResultData findPerLevelOne( TtPermission ttPermission , @RequestParam(required = false, defaultValue = "1") int currentPage,
+                                       @RequestParam(required = false, defaultValue = "5") int pageSize ){
+       // ttPermission.setName("管理");
+        return permissionService.findPerLevelOne(ttPermission,currentPage,pageSize);
     }
 }

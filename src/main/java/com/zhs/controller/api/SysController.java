@@ -19,26 +19,28 @@ public class SysController {
     //用户列表页面
     @RequestMapping("/userlist")
     public  String userlist(){
-        log.info("进入用户列表页面");
         return "user/userlist";
     }
     //角色列表
     @RequestMapping("/rolelist")
     public  String rolelist(){
-        log.info("进入用户列表页面");
         return "role/rolelist";
     }
     //资源列表
     @RequestMapping("/perlist")
     public  String perlist(){
-        log.info("进入用户列表页面");
         return "per/perlist";
     }
 
     //账号列表
     @RequestMapping("/acclist")
     public  String acclist(){
-        log.info("进入用户列表页面");
         return "account/acclist";
+    }
+
+    //账号列表
+    @RequestMapping("/selflist")
+    public  String selflist(){
+        return "account/selflist";
     }
 }

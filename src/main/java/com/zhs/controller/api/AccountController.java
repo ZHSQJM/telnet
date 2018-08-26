@@ -31,15 +31,20 @@ public class AccountController {
     @GetMapping("/list")
     @ApiOperation(value="测试分页账号信息", notes="返回时登录是所有人的账号信息")
     public ResultData list(TtAccount account, @RequestParam(required = false, defaultValue = "1") int currentPage,
-    @RequestParam(required = false, defaultValue = "10") int pageSize){
+    @RequestParam(required = false, defaultValue = "5") int pageSize){
         return  accountService.searchAccount(account,currentPage,pageSize);
     }
 
     @PostMapping("/add")
     @ApiOperation(value = "添加账户数据",notes="返回的是是否添加成功")
     public ResultData addAccount(@Validated TtAccount account,String realname){
-
         return  accountService.addAccount(account,realname);
+    }
+    @GetMapping("/userlist")
+    @ApiOperation(value="测试分页账号信息", notes="返回时登录是所有人的账号信息")
+    public ResultData userlist(TtAccount account, @RequestParam(required = false, defaultValue = "1") int currentPage,
+                           @RequestParam(required = false, defaultValue = "5") int pageSize){
+        return  accountService.searchAccountByUserId(account,currentPage,pageSize);
     }
 
 

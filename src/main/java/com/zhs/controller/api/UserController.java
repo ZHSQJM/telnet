@@ -28,24 +28,25 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
+//
     //分页获取用户列表
     @ApiOperation(value="分页查找用户列表", notes="返回的是分页回来的信息")
-    @PostMapping(value="getAllUsers")
+    @GetMapping(value="getAllUsers")
     public ResultData getAllUsers(TtUser user, @RequestParam(required = false, defaultValue = "1") int currentPage,
-                                  @RequestParam(required = false, defaultValue = "10") int pageSize){
-
+                                  @RequestParam(required = false, defaultValue = "5") int pageSize){
+       // user.setRealname("周");
         return  userService.searchUser(user,currentPage,pageSize);
     }
 
     @ApiOperation(value="新增用户的接口", notes="返回的是是否添加成功")
     @PostMapping(value="add")
-    public ResultData addUser(@Validated TtUser user){
+    public ResultData addUser(TtUser user){
+        log.info("dasda0"+user);
         return  userService.addUser(user);
     }
 
 
-    @GetMapping(value="del")
+    @PostMapping(value="del")
     @ApiOperation(value="删除用户的接口", notes="返回的是是否删除成功")
     public ResultData delUser(int id){
         return  userService.delUser(id);
@@ -78,5 +79,11 @@ public class UserController {
             return ResultData.ofFail("请传入必须参数");
         }
         return userService.findRoleByUserId(id);
+    }
+
+    @PostMapping(value="huifu")
+    @ApiOperation(value="删除用户的接口", notes="返回的是是否删除成功")
+    public ResultData huifuUser(int id){
+        return  userService.huifuUser(id);
     }
 }
