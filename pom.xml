@@ -133,6 +133,19 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
+
+        <!-- 读取配置文件-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>1.5.10.RELEASE</version>
+        </dependency>
+        <!-- 上传至七牛服务器-->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>[7.2.0, 7.2.99]</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -97,12 +97,14 @@
                     </div>
                 </li>
 
-                <li class="dropdown notification-list">
+                <li class="dropdown notification-list" >
                     <a class="nav-link dropdown-toggle nav-user mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <img src="../assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
-                        <small class="pro-user-name ml-1">
-                            Admin
-                        </small>
+                   <span id="loginname">
+                  <!--  <small class="pro-user-name ml-1" >
+
+                       </small>-->
+                       </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown ">
                         <!-- item-->
@@ -131,7 +133,7 @@
                         <div class="dropdown-divider"></div>
 
                         <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <a href="/logout" class="dropdown-item notify-item">
                             <i class="fe-log-out"></i>
                             <span>退出</span>
                         </a>
@@ -168,7 +170,7 @@
         <div class="container-fluid">
             <div id="navigation">
                 <!-- Navigation Menu-->
-                <ul class="navigation-menu" id="nav-zhs">
+                <ul class="navigation-menu in" id="nav-zhs">
                 </ul>
                 <!-- End navigation menu -->
 
@@ -182,7 +184,10 @@
 </header>
 
 <script src="../js/jquery-2.1.1.min.js"></script>
+<script src="../js/alert/message.js"></script>
+<script src="../js/alert/messageIE.js"></script>
 <script>
+    var currenturl=window.location.pathname;
         $.ajax({
             //几个参数需要注意一下
             type: "GET",//方法类型
@@ -190,22 +195,31 @@
             url: "/per/loadMenu" ,//url
             success: function (data) {
                 for(var i=0;i<data.length;i++){
-                    var html="<li id='d"+i+"' class='has-submenu'> <a href="+data[i].resurl+"> <i class="+data[i].icon+"></i>"+data[i].name+"</a></li>";
+                    var html="<li id='d"+i+"' class='has-submenu '> <a href="+data[i].resurl+" class='active' > <i class="+data[i].icon+"></i>"+data[i].name+"</a></li>";
                     $("#nav-zhs").append(html);
+                    var da="d"+i;
+                    if(currenturl==data[i].resurl){
+                        $("#"+da).addClass("active");
+                    }
                     if(data[i].list==null){
                     }else{
                         for(var j=0;j<data[i].list.length;j++){
                             if(j==0) {
-                                zhtml = "<ul class='submenu'>";
+                                zhtml = "<ul class='submenu' id='u"+j+"' >";
                             }
-                            zhtml +=" <li><a href='"+data[i].list[j].resurl+"'>"+data[i].list[j].name+"</a>" +
+                            zhtml +=" <li id='a"+j+"'><a href='"+data[i].list[j].resurl+"'   >"+data[i].list[j].name+"</a>" +
                                 " </li>";
                             if(j==data[i].list.length) {
                                 zhtml += "</ul>";
+                            }i
+                            var aa="a"+j;
+                            if(currenturl==data[i].list[j].resurl){
+                                $("#"+aa).addClass("active");
+                                $("#"+da).addClass("active");
                             }
                         }
-                        var da="d"+i;
                         $("#"+da).append(zhtml);
+
                     }
                 }
 
@@ -215,6 +229,17 @@
             }
         });
 
-    
+    $.ajax({
+        //几个参数需要注意一下
+        type: "GET",//方法类型
+        dataType: "json",//预期服务器返回的数据类型
+        url: "/index/userinfo",//url
+        success: function (rt) {
+            if(rt.code==200){
+                console.log(rt.data.username);
+                $("#loginname").html(rt.data.username);
+            }
+        }
+    });
 </script>
 <!-- End Navigation Bar-->

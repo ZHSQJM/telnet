@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <title>角色管理</title>
@@ -12,18 +12,93 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="../css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="../css/app.min.css" rel="stylesheet" type="text/css" />
+    <!-- plugins css-->
+    <link href="../css/vendor/switchery.min.css" rel="stylesheet" type="text/css" />
     <!-- third party css -->
-    <link href="../css/vendor/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
-    <link href="../css/vendor/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
-    <link href="../css/vendor/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
-    <link href="../css/vendor/select.bootstrap4.css" rel="stylesheet" type="text/css" />
+
     <!-- third party css end -->
 </head>
 
 <body>
 <div th:include="common/menu"></div>
+<form id="form" method="post">
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">修改角色</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <label for="rolename">角色名</label>
+                    <input class="form-control"  id="rolename" required name="rolename" placeholder="输入角色名">
+                    <label for="roledesc">角色描述</label>
+                    <input class="form-control"  id="roledesc" required name="roledesc" placeholder="请简述描述">
+                    <input type="hidden" id="rid" name="id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" id="close" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="update()">保存更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</form>
+<form id="form1" method="post">
+    <div id="myModal1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel1">新增角色</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <label for="rolename">角色名</label>
+                    <input class="form-control"  id="rolename1" required name="rolename" placeholder="输入角色名">
+                    <label for="roledesc">角色描述</label>
+                    <input class="form-control"  id="roledesc1" required name="roledesc" placeholder="请简述描述">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" id="close1" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="add()">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</form>
+<form id="form2" method="post">
+    <div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel2">用户列表</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+
+                    <ul>
+                        <li>dasd</li>
+                        <li>dasd</li>
+                        <li>dasd</li><li>dasd</li><li>dasd</li>
 
 
+                    </ul>
+                  <!--  <label for="rolename">角色名</label>
+                    <input class="form-control"  id="rolename1" required name="rolename" placeholder="输入角色名">
+                    <label for="roledesc">角色描述</label>
+                    <input class="form-control"  id="roledesc1" required name="roledesc" placeholder="请简述描述">-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" id="close2" data-dismiss="modal">关闭</button>
+                  <!--  <button type="button" class="btn btn-primary" onclick="add()">保存</button>-->
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</form>
+<button type="button" id="update1" style="display: none" data-toggle="modal" data-target="#myModal"></button>
+<button type="button" id="update2" style="display: none" data-toggle="modal" data-target="#myModal1"></button>
+<button type="button" id="update3" style="display: none" data-toggle="modal" data-target="#myModal2"></button>
 <div class="wrapper">
     <div class="container-fluid">
 
@@ -45,162 +120,195 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
+                        <button type="button" class="btn btn-primary mb-2" onclick="showadd()"> <i class="mdi mdi-account-plus mr-1"></i> 新增角色</button>
+                        <table class="table table-hover mb-0" id="table-zhs">
                             <thead>
                             <tr>
-                                <th>姓名</th>
-                                <th>性别</th>
-                                <th>工作</th>
-                                <th>年龄</th>
-                                <th>开始日期</th>
+                                <th>序号</th>
+                                <th>角色名称</th>
+                                <th>角色描述</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
                                 <th>状态</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-                            <tr>
-                                <td>默笙</td>
-                                <td>男</td>
-                                <td>PHP</td>
-                                <td>23</td>
-                                <td>2017/06/25</td>
-                                <td>正常</td>
-                            </tr>
-
                             </tbody>
                         </table>
-
-                    </div> <!-- end card body-->
-                </div> <!-- end card -->
-            </div><!-- end col-->
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- end row-->
-
-
-
-
-                </div> <!-- end card -->
-            </div><!-- end col-->
-        </div>
-    </div> <!-- end container -->
+    </div>
+</div>
+</div>
+</div>
 </div>
 <div th:include="common/footer"></div>
+<script>
+    $.ajax({
+        //几个参数需1要注意一下
+        type: "GET",//方法类型
+        dataType: "json",//预期服务器返回的数据类型
+        url: "/role/getAllRoles",//url
+        success: function (rt) {
+            var data=rt.data.list;
+            for(var i=0;i<data.length;i++){
+                var ud="";
+                var flag=0;
+                var html="";
+                var icon="";
+                var tt="";
+                if(data[i].disable==1){
+                    tt="none";
+                    ud="恢复";
+                    icon='fe-check-square'
+                    data[i].disable="禁用"
+                }else{
+                    tt="block";
+                    ud="删除";
+                    icon="fe-x"
+                    flag=1;
+                    data[i].disable="启用"
+                }
+                html+="<tr> <td scope=‘row’>"+(i+1)+"</td><td>"+data[i].rolename+"</td>" +
+                    "<td>"+data[i].roledesc+"</td><td>"+data[i].createtime+"</td><td>"+data[i].updatetime+"</td>" +
+                    "<td>"+ data[i].disable+"</td>" +
+                    "<td> <div class='btn-group dropdown'><a href='javascript: void(0);' class='dropdown-toggle arrow-none btn btn-light btn-sm' data-toggle='dropdown' aria-expanded='false'>" +
+                    "<i class='mdi mdi-dots-horizontal'></i></a>" +
+                    "<div class='dropdown-menu dropdown-menu-right'>" +
+                    "<a  class='dropdown-item' href='#' onclick='updaterole("+data[i].id+")'  style='display: "+tt+"'><i class='mdi mdi-pencil mr-1 text-muted'></i>编辑</a>" +
+                    "<a class='dropdown-item' href='#' onclick='deleterole("+data[i].id+","+flag+")'><i class='"+icon+" mr-1 text-muted'></i>"+ud+"</a>" +
+                    "<a class='dropdown-item' href='#'   style='display: "+tt+"' onclick='showUser("+data[i].id+")'><i class='mdi mdi-account-multiple mr-1 text-muted'></i>用户列表</a>"+
+                    "<a class='dropdown-item' href='#' style='display: "+tt+"'onclick='showPer("+data[i].id+")'><i class='fe-database mr-1 text-muted'></i>权限列表</a>" +
+                    "</div></div></td></tr>"
+                $("#table-zhs").append(html);
+            }
 
+        }
+    });
+    function deleterole(id,flag) {
+        var url="";
+        if(flag==0){
+            //恢复
+            url="/role/huifu";
+        }else{
+            url="/role/del";
+        }
+        $.ajax({
+            //几个参数需1要注意一下
+            type: "POST",//方法类型
+            async: false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: url,//url
+            data: {
+                roleid: id
+            },
+            success: function (rt) {
+                console.log(rt);
+                if (rt.code == 200) {
+                    alert(rt.data);
+                    location.reload();
+                }else{
+                    alert("网络错误");
+                }
+            }
+        });
+    }
+    //修改的方法
+    function updaterole(id) {
+        $.ajax({
+            //几个参数需1要注意一下
+            type: "GET",//方法类型
+            async: false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/role/getrole",//url
+            data: {
+                id: id
+            },
+            success: function (rt) {
+                if(rt.code==200){
+                    $("#update1").click();
+                    var data=rt.data;
+                    $("#rid").val(data.id);
+                    $("#rolename").val(data.rolename);
+                    $("#roledesc").val(data.roledesc);
+                }else{
+                    alert("网络错误")
+                }
+            }
+        })
+    }
+    //修改
+    function update() {
+        var rolename=  $("#rolename").val();
+      if(rolename==""||rolename==null){
+            alert("角色名称不能为空");
+            return false;
+        }$.ajax({
+            //几个参数需1要注意一下
+            type: "POST",//方法类型
+            async: false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/role/update",//url
+            data:$('#form').serialize(),
+            success: function (rt) {
+                console.log(rt);
+                if (rt.code == 200) {
+                    $("#close").click();
+                    location.reload();
+                } else {
+                    alert(rt.message);
+                }
+            }
+        });
+    }
+    //权限列表
+    function showPer(id) {
+        alert(id);
+    }
+
+    function showadd(){
+        $("#update2").click();
+    }
+    function  add() {
+        var rolename=  $("#rolename1").val();
+        if(rolename==""||rolename==null){
+            alert("角色名称不能为空");
+            return false;
+        }$.ajax({
+            //几个参数需1要注意一下
+            type: "POST",//方法类型
+            async: false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/role/add",//url
+            data:$('#form1').serialize(),
+            success: function (rt) {
+                console.log(rt);
+                if (rt.code == 200) {
+                    alert("新增成功");
+                    $("#close").click();
+                    location.reload();
+                } else {
+                    alert(rt.message);
+                }
+            }
+        });
+    }
+    function showUser(id) {
+        $("#update3").click();
+    }
+</script>
+<!-- -->
 <!-- App js -->
 <script src="../js/vendor.min.js"></script>
 <script src="../js/app.min.js"></script>
-
-<!-- third party js -->
-<script src="../js/vendor/jquery.dataTables.js"></script>
-<script src="../js/vendor/dataTables.bootstrap4.js"></script>
-<script src="../js/vendor/dataTables.responsive.min.js"></script>
-<script src="../js/vendor/responsive.bootstrap4.min.js"></script>
-<script src="../js/vendor/dataTables.buttons.min.js"></script>
-<script src="../js/vendor/buttons.bootstrap4.min.js"></script>
-<script src="../js/vendor/buttons.html5.min.js"></script>
-<script src="../js/vendor/buttons.flash.min.js"></script>
-<script src="../js/vendor/buttons.print.min.js"></script>
-<script src="../js/vendor/dataTables.keyTable.min.js"></script>
-<script src="../js/vendor/dataTables.select.min.js"></script>
-<!-- third party js ends -->
-<!-- demo app -->
-<script src="../js/pages/datatables.init.js"></script>
-<!-- end demo js-->
-
+<script src="../js/vendor/switchery.min.js"></script>
+<script src="../js/vendor/bootstrap-maxlength.min.js"></script>
+<script src="../js/pages/form-advanced.init.js"></script>
+<!-- App js -->
+<script src="../js/vendor/sweetalert2.min.js"></script>
+<script src="../js/pages/sweet-alerts.init.js"></script>
 </body>
 </html>

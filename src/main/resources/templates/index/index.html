@@ -2,23 +2,23 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>首页</title>
+    <title>首页 - 默笙后台管理系统</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta content="zhouhuasheng" name="author" />
+    <meta content="这不仅仅是一个后台管理系统，它基于BT4，超强的自适应，简洁，高效，大方" />
+    <meta content="Mosheng" name="author" />
 
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico">
 
     <!-- App css -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/app.min.css" rel="stylesheet" type="text/css" />
 
-    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <link href="/css/app.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-
 
 <div th:include="common/menu"></div>
 
@@ -31,11 +31,11 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="#">默笙</a></li>
-                            <li class="breadcrumb-item active">仪表盘</li>
+                            <li class="breadcrumb-item"><a href="#">首页</a></li>
+                            <li class="breadcrumb-item active">数据分析</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">仪表盘</h4>
+                    <h4 class="page-title">数据分析</h4>
                 </div>
             </div>
         </div>
@@ -47,30 +47,17 @@
                     <div class="card-body p-0">
                         <div class="p-3 pb-0">
                             <div class="float-right">
-                                <i class="mdi mdi-cart text-primary widget-icon"></i>
+                                <i class="mdi mdi-eye-outline text-danger widget-icon"></i>
                             </div>
-                            <h5 class="text-muted font-weight-normal mt-0">商品总数</h5>
-                            <h3 class="mt-2">3,543</h3>
+                            <h5 class="text-muted font-weight-normal mt-0">访问量</h5>
+                            <h3 class="mt-2">74,315</h3>
                         </div>
-                        <div id="sparkline1"></div>
+                        <div id="sparkline4"></div>
                     </div> <!-- end card-body-->
                 </div> <!-- end card-->
             </div> <!-- end col-->
 
-            <div class="col-xl-3 col-lg-6">
-                <div class="card widget-flat">
-                    <div class="card-body p-0">
-                        <div class="p-3 pb-0">
-                            <div class="float-right">
-                                <i class="mdi mdi-currency-usd text-danger widget-icon"></i>
-                            </div>
-                            <h5 class="text-muted font-weight-normal mt-0">销售总数</h5>
-                            <h3 class="mt-2">21,287</h3>
-                        </div>
-                        <div id="sparkline2"></div>
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
-            </div> <!-- end col-->
+
 
             <div class="col-xl-3 col-lg-6">
                 <div class="card widget-flat">
@@ -87,20 +74,7 @@
                 </div> <!-- end card-->
             </div> <!-- end col-->
 
-            <div class="col-xl-3 col-lg-6">
-                <div class="card widget-flat">
-                    <div class="card-body p-0">
-                        <div class="p-3 pb-0">
-                            <div class="float-right">
-                                <i class="mdi mdi-eye-outline text-danger widget-icon"></i>
-                            </div>
-                            <h5 class="text-muted font-weight-normal mt-0">访问量</h5>
-                            <h3 class="mt-2">74,315</h3>
-                        </div>
-                        <div id="sparkline4"></div>
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
-            </div> <!-- end col-->
+
         </div>
         <!-- end row -->
 
@@ -109,7 +83,6 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="header-title">销售分析</h4>
-
                         <canvas id="bar" height="350" class="mt-4"></canvas>
 
                     </div>
@@ -146,9 +119,8 @@
                                     <th>操作</th>
                                 </tr>
                                 </thead>
-
-
                                 <tbody>
+
                                 <tr>
                                     <td><b>#0121</b></td>
                                     <td>
@@ -181,129 +153,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><b>#0121</b></td>
-                                    <td>
-                                        <img src="assets/images/users/avatar-2.jpg" alt="contact-img" height="36" title="contact-img" class="rounded-circle float-left mr-2" />
-                                        <p class="mb-0 font-weight-bold"><a href="javascript: void(0);">默笙</a></p>
-                                        <span class="font-13">3494490@qq.com</span>
-                                    </td>
 
-                                    <td>
-                                        155-0000-0000
-                                    </td>
-
-                                    <td>
-                                        中国·河南
-                                    </td>
-
-                                    <td>
-                                        2018/08/10
-                                    </td>
-
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#"><i class="mdi mdi-pencil mr-1 text-muted"></i>编辑</a>
-                                                <a class="dropdown-item" href="#"><i class="mdi mdi-delete mr-1 text-muted"></i>删除</a>
-                                                <a class="dropdown-item" href="#"><i class="mdi mdi-email mr-1 text-muted"></i>发送邮件</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><b>#0121</b></td>
-                                    <td>
-                                        <img src="assets/images/users/avatar-2.jpg" alt="contact-img" height="36" title="contact-img" class="rounded-circle float-left mr-2" />
-                                        <p class="mb-0 font-weight-bold"><a href="javascript: void(0);">默笙</a></p>
-                                        <span class="font-13">3494490@qq.com</span>
-                                    </td>
-
-                                    <td>
-                                        155-0000-0000
-                                    </td>
-
-                                    <td>
-                                        中国·河南
-                                    </td>
-
-                                    <td>
-                                        2018/08/10
-                                    </td>
-
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#"><i class="mdi mdi-pencil mr-1 text-muted"></i>编辑</a>
-                                                <a class="dropdown-item" href="#"><i class="mdi mdi-delete mr-1 text-muted"></i>删除</a>
-                                                <a class="dropdown-item" href="#"><i class="mdi mdi-email mr-1 text-muted"></i>发送邮件</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><b>#0121</b></td>
-                                    <td>
-                                        <img src="assets/images/users/avatar-2.jpg" alt="contact-img" height="36" title="contact-img" class="rounded-circle float-left mr-2" />
-                                        <p class="mb-0 font-weight-bold"><a href="javascript: void(0);">默笙</a></p>
-                                        <span class="font-13">3494490@qq.com</span>
-                                    </td>
-
-                                    <td>
-                                        155-0000-0000
-                                    </td>
-
-                                    <td>
-                                        中国·河南
-                                    </td>
-
-                                    <td>
-                                        2018/08/10
-                                    </td>
-
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#"><i class="mdi mdi-pencil mr-1 text-muted"></i>编辑</a>
-                                                <a class="dropdown-item" href="#"><i class="mdi mdi-delete mr-1 text-muted"></i>删除</a>
-                                                <a class="dropdown-item" href="#"><i class="mdi mdi-email mr-1 text-muted"></i>发送邮件</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><b>#0121</b></td>
-                                    <td>
-                                        <img src="assets/images/users/avatar-2.jpg" alt="contact-img" height="36" title="contact-img" class="rounded-circle float-left mr-2" />
-                                        <p class="mb-0 font-weight-bold"><a href="javascript: void(0);">默笙</a></p>
-                                        <span class="font-13">3494490@qq.com</span>
-                                    </td>
-
-                                    <td>
-                                        155-0000-0000
-                                    </td>
-
-                                    <td>
-                                        中国·河南
-                                    </td>
-
-                                    <td>
-                                        2018/08/10
-                                    </td>
-
-                                    <td>
-                                        <div class="btn-group dropdown">
-                                            <a href="javascript: void(0);" class="dropdown-toggle arrow-none btn btn-light btn-sm" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#"><i class="mdi mdi-pencil mr-1 text-muted"></i>编辑</a>
-                                                <a class="dropdown-item" href="#"><i class="mdi mdi-delete mr-1 text-muted"></i>删除</a>
-                                                <a class="dropdown-item" href="#"><i class="mdi mdi-email mr-1 text-muted"></i>发送邮件</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
 
@@ -320,24 +170,7 @@
 <!-- end wrapper -->
 
 
-<!-- Footer Start -->
-<footer class="footer">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                Mosheng Admin &copy; 2018 - tecms.net
-            </div>
-            <div class="col-md-6">
-                <div class="text-md-right footer-links d-none d-sm-block">
-                    <a href="#">关于我们</a>
-                    <a href="#">帮助</a>
-                    <a href="#">联系我们</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- end Footer -->
+<div th:include="common/footer"></div>
 
 
 <!-- App js -->

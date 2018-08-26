@@ -1,33 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>角色管理</title>
+    <title>账号管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta content="Mosheng" name="author" />
-
-
     <!-- App favicon -->
     <link rel="shortcut icon" href="../assets/images/favicon.ico">
     <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="../css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="../css/app.min.css" rel="stylesheet" type="text/css" />
-    <!-- third party css -->
-    <link href="../css/vendor/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
-    <link href="../css/vendor/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
-    <link href="../css/vendor/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
-    <link href="../css/vendor/select.bootstrap4.css" rel="stylesheet" type="text/css" />
-    <!-- third party css end -->
+    <!-- plugins css-->
+    <link href="../css/vendor/switchery.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 <div th:include="common/menu"></div>
-
-
 <div class="wrapper">
     <div class="container-fluid">
-
-        <!-- start page title -->
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
@@ -45,7 +34,8 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
+                        <!-- <h4 class="header-title">查询</h4>-->
+                        <table class="table table-hover mb-0" id="table-zhs">
                             <thead>
                             <tr>
                                 <th>序号</th>
@@ -62,50 +52,115 @@
                             </tr>
                             </thead>
                             <tbody>
-
                             </tbody>
                         </table>
+                        <p>共<span id="total"></span>条数据,共<span id="page"></span>页,当前页是第<span id="current"></span>页
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end" id="pagesize">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">上一页</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link active" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">下一页</a>
+                                    </li>
+                                </ul>
+                            </nav>
 
-                    </div> <!-- end card body-->
-                </div> <!-- end card -->
-            </div><!-- end col-->
+
+                        </p>
+
+                    </div>
+
+                </div>
+            </div>
         </div>
-        <!-- end row-->
+    </div>
 
+                    </div> <!-- end card-body -->
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">模态标题</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <h6>模态中的文本</h6>
+                <p>这里其实是一个P标签</p>
+                <hr>
+                <h6>溢出文本以显示滚动行为</h6>
+                <p>这里其实也是一个P标签</p>
+                <p>这里还是一个P标签</p>
+                <p>emmm  还是一个P标签</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<button type="button" id="update1" style="display: none" data-toggle="modal" data-target="#myModal"></button>
 
-
-
-    </div> <!-- end card -->
-</div><!-- end col-->
-</div>
-</div> <!-- end container -->
-</div>
 <div th:include="common/footer"></div>
+<script>
+    var page="1";
+    var pagesize="10";
+    getdata(page,pagesize);
 
-<!-- App js -->
+    function getdata(page,pagesize){
+        $.ajax({
+            //几个参数需要注意一下
+            type: "GET",//方法类型
+            async: false,
+            dataType: "json",//预期服务器返回的数据类型
+            data:{
+                currentPage: page,
+                pageSize:pagesize
+            },
+            url: "/account/list" ,//url
+            success: function (rt) {
+                var html="";
+                var data=rt.data.list;
+                console.log(rt.data)
+                if(rt.code==200){
+                    for(var i=0;i<data.length;i++){
+                        html+="<tr><td scope=‘row’>"+(i+1)+"</td><td>"+data[i].website+"</td><td>"+data[i].webname+"</td><td>"+data[i].username+"</td><td>"+data[i].nickname+"</td>" +
+                            "<td>"+data[i].phone+"</td><td>"+data[i].password+"</td><td>"+data[i].createtime+"</td><td>"+data[i].updatetime+"</td><td>"+data[i].ext1+"</td>"+
+                            "<td> <div class='btn-group dropdown'><a href='javascript: void(0);' class='dropdown-toggle arrow-none btn btn-light btn-sm' data-toggle='dropdown' aria-expanded='false'>"+
+                            "<i class='mdi mdi-dots-horizontal'></i></a>"+          /* <button type='button'  data-toggle='modal' data-target='myModal'></button> */
+                            "<div class='dropdown-menu dropdown-menu-right'>"+  /* onclick='updateaccount("+data[i].id+")'*/
+                            "<a class='dropdown-item' href='#'  onclick='updateaccount("+data[i].id+")'><i class='mdi mdi-pencil mr-1 text-muted'></i>编辑</a>" +
+                            "<a class='dropdown-item' href='#' onclick='deleteaccount("+data[i].id+")'><i class='fe-x mr-1 text-muted'></i>删除</a>" +
+                            "</div></div></td>"
+                    }
+                    $("#table-zhs").append(html);
+                    $("#total").html(rt.data.total);
+                    $("#page").html(rt.data.pages);
+                    $("#current").html(rt.data.pageNum);
+
+            /*    <li class="page-item"><a class="page-link" href="#">1</a></li>*/
+                }
+            }
+        });
+
+    }
+
+    function updateaccount(id) {
+        $("#update1").click();
+    }
+</script>
 <script src="../js/vendor.min.js"></script>
 <script src="../js/app.min.js"></script>
-<script>
-    $.ajax({
-        //几个参数需要注意一下
-        type: "GET",//方法类型
-        dataType: "json",//预期服务器返回的数据类型
-        url: "/account/list" ,//url
-        success: function (rt) {
-            var html="";
-            var data=rt.data.list;
-            if(rt.code==200){
-                for(var i=0;i<data.length;i++){
-                    console.log(data[i]);
-                    html+="<tr><td>"+data[i].id+"</td><td>"+data[i].website+"</td><td>"+data[i].webname+"</td><td>"+data[i].username+"</td><td>"+data[i].nickname+"</td>" +
-                        "<td>"+data[i].phone+"</td><td>"+data[i].password+"</td><td>"+data[i].createtime+"</td><td>"+data[i].updatetime+"</td><td>"+data[i].ext1+"</td><td><span shiro:hasPermission='acc:update'><a href=''>修改|</a></span><span shiro:hasPermission='acc:del'><a href=''>删除</a></span></td></tr>"
-                }
-                $("#datatable-buttons").append(html);
-            }
-        }
-    });
-
-</script>
+<script src="../js/vendor/switchery.min.js"></script>
+<script src="../js/vendor/bootstrap-maxlength.min.js"></script>
+<script src="../js/pages/form-advanced.init.js"></script>
+<!-- App js -->
+<script src="../js/vendor/sweetalert2.min.js"></script>
+<script src="../js/pages/sweet-alerts.init.js"></script>
 
 </body>
 </html>
