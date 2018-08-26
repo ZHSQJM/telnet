@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.zhs.mapper.TtRoleMapper;
 import com.zhs.mapper.TtUserMapper;
 import com.zhs.mapper.TtUserRoleMapper;
+import com.zhs.pojo.TtPermission;
 import com.zhs.pojo.TtUser;
 import com.zhs.pojo.TtUserRole;
 import com.zhs.service.UserService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,6 +54,7 @@ public class UserServiceImpl implements UserService {
           return  ResultData.ofFail("该用户名已被注册");
         }else {
             ur.setUsername(user.getUsername());
+            ur.setRealname(user.getRealname());
             ur.setPassword(user.getPassword());
             ur.setPhone(user.getPhone());
             ur.setEnable(0);
@@ -77,20 +80,23 @@ public class UserServiceImpl implements UserService {
         for(TtUserRole tur:list){
             trDao.delUserRole(tur.getId());
         }
-        return ResultData.ofSuccess("");
+        return ResultData.ofSuccess("删除成功");
     }
 
     @Override
     public ResultData searchUser(TtUser user, Integer currentPage, Integer pageSize) {
+
         int totalRecords=0;
-        if(user.getRealname()==null||user.getPhone()==null||user.getUsername()==null) {
-            totalRecords = userDao.count();
+        List<TtUser> list=new ArrayList<>();
+        if(user.getRealname()==null&&user.getPhone()==null&&user.getUsername()==null){
+            totalRecords= userDao.count();
+            PageHelper.startPage(currentPage, pageSize);
+            list =userDao.searchUser(user);
+        }else{
+            PageHelper.startPage(currentPage, pageSize);
+            list =userDao.searchUser(user);
+            totalRecords=list.size();
         }
-        PageHelper.startPage(currentPage, pageSize);
-        List<TtUser> list=userDao.searchUser(user);
-        totalRecords=list.size();
-
-
         PageInfo<TtUser> pageInfo=new PageInfo<>(totalRecords,currentPage,pageSize,list);
         return ResultData.ofSuccess(pageInfo);
     }
@@ -100,6 +106,16 @@ public class UserServiceImpl implements UserService {
         user.setUpdatetime(new Date());
                 userDao.updateByPrimaryKeySelective(user);
         return ResultData.ofSuccess("");
+    }
+
+    @Override
+    public ResultData huifuUser(Integer id) {
+        userDao.huifuUser(id);
+        List<TtUserRole> list=trDao.selbyuserid(id);
+        for(TtUserRole tur:list){
+            trDao.huifuUserRole(tur.getId());
+        }
+        return ResultData.ofSuccess("恢复成功");
     }
 
     @Override

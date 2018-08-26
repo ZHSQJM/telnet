@@ -5,9 +5,12 @@ import com.zhs.mapper.TtReqLogMapper;
 import com.zhs.pojo.TtLoginLog;
 import com.zhs.pojo.TtReqLog;
 import com.zhs.service.LogService;
+import com.zhs.util.ResultData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.awt.image.RescaleOp;
 
 /**
  * Created with IDEA
@@ -34,5 +37,10 @@ public class LogServiceImpl implements LogService {
     @Override
     public void addReqLog(TtReqLog reqLog) {
         reqDao.insert(reqLog);
+    }
+
+    @Override
+    public ResultData count() {
+        return ResultData.ofSuccess(logDao.count());
     }
 }

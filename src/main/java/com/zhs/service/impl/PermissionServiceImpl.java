@@ -1,10 +1,15 @@
 package com.zhs.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zhs.mapper.TtPermissionMapper;
 import com.zhs.mapper.TtRolePermissionMapper;
+import com.zhs.pojo.TtAccount;
 import com.zhs.pojo.TtPermission;
 import com.zhs.pojo.TtRolePermission;
+import com.zhs.pojo.TtUser;
 import com.zhs.service.PermissionService;
+import com.zhs.util.PageInfo;
 import com.zhs.util.ResultData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +41,6 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional
     public  List<TtPermission>  loadAllPer(Map<String,Object> map) {
 
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + ":" + entry.getValue());
-        }
         List<TtPermission> list=new ArrayList<>();
         List<TtPermission> list1= permmissionDao.loadAllPer(map);
         for(TtPermission tt:list1){
@@ -101,5 +103,29 @@ public class PermissionServiceImpl implements PermissionService {
         ttPermission.setUpdatetime(new Date());
         permmissionDao.updateByPrimaryKeySelective(ttPermission);
         return ResultData.ofSuccess("");
+    }
+
+    @Override
+    public ResultData findPerLevelOne(  TtPermission ttPermission,Integer currentPage, Integer pageSize) {
+
+        Page<?> page=PageHelper.startPage(currentPage, pageSize);
+        List<TtPermission> list1=permmissionDao.findPerLevelOne(ttPermission);
+        List<TtPermission> list=new ArrayList<>();
+        for(TtPermission tp:list1){
+
+            if(tp.getParentid()==0){
+                tp.setExt1("一级菜单");
+            }else{
+                TtPermission tt=  permmissionDao.selectByPrimaryKey(tp.getParentid());
+                tp.setExt1("二级菜单");
+                tp.setExt2(tt.getName());
+            }
+            list.add(tp);
+        }
+
+
+        com.github.pagehelper.PageInfo<TtPermission> pageInfo = new com.github.pagehelper.PageInfo<>(list1);
+        return ResultData.ofSuccess(pageInfo);
+
     }
 }

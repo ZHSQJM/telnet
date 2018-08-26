@@ -1,14 +1,14 @@
 package com.zhs.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zhs.mapper.TtAccountMapper;
 import com.zhs.mapper.TtUserMapper;
 import com.zhs.pojo.TtAccount;
 import com.zhs.pojo.TtUser;
 import com.zhs.service.AccountService;
-import com.zhs.util.PageInfo;
 import com.zhs.util.ResultData;
-import com.zhs.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,18 +37,25 @@ public class AccountServiceImpl implements AccountService {
     private TtUserMapper userDao;
     @Override
     public ResultData searchAccount(TtAccount account, Integer currentPage, Integer pageSize) {
-        int totalRecords=0;
-        if(account.getWebname()==null||account.getPhone()==null||account.getWebsite()==null||account.getUsername()==null) {
-            totalRecords = accountMapper.count();
-        }
-        PageHelper.startPage(currentPage, pageSize);
-      List<TtAccount> list=  accountMapper.searchAccount(account);
+        Page<?> page=PageHelper.startPage(currentPage, pageSize);
+        List<TtAccount> list=accountMapper.searchAccount(account);
+                log.info("查询到"+list.size());
       for(TtAccount ta:list){
           ta.setExt1( userDao.selectByPrimaryKey(ta.getUserid()).getRealname());
       }
-        totalRecords=list.size();
+        PageInfo<TtAccount> pageInfo = new PageInfo<>(list);
+        return ResultData.ofSuccess(pageInfo);
+    }
 
-        PageInfo<TtAccount> pageInfo=new PageInfo<>(totalRecords,currentPage,pageSize,list);
+    @Override
+    public ResultData searchAccountByUserId(TtAccount account, Integer currentPage, Integer pageSize) {
+        log.info("通过用户名添加的"+account);
+        TtUser user=(TtUser) SecurityUtils.getSubject().getPrincipal();
+        account.setUserid(user.getId());
+        Page<?> page=PageHelper.startPage(currentPage, pageSize);
+        List<TtAccount> list=accountMapper.searchAccount(account);
+        log.info("查询到"+list.size());
+        PageInfo<TtAccount> pageInfo = new PageInfo<>(list);
         return ResultData.ofSuccess(pageInfo);
     }
 
@@ -81,7 +89,6 @@ public class AccountServiceImpl implements AccountService {
             log.info("添加成功");
         return ResultData.ofSuccess("");
         }
-
 
     }
 

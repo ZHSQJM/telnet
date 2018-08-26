@@ -1,5 +1,6 @@
 package com.zhs.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zhs.mapper.TtPermissionMapper;
 import com.zhs.mapper.TtRoleMapper;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -91,7 +93,6 @@ public class roleServerimpl implements RoleService {
     @Override
     @Transactional
     public ResultData delRole(Integer id) {
-
         //删除角色的同时删除时用户相关表中的人
         //获取所有改角色的用户
         List<TtUserRole> list=trDao.selUseridByroleid(id);
@@ -106,26 +107,21 @@ public class roleServerimpl implements RoleService {
         //删除该角色的所有权限
         if(list2.size()>0&&list2!=null) {
             for (TtRolePermission tr : list2) {
-                log.info("da"+tr);
                 tpDao.delURolePermission(tr.getId());
             }
         }
         //删除改种用户
         roleDao.delRole(id);
-        return ResultData.ofSuccess("");
+        return ResultData.ofSuccess("删除成功");
     }
 
     @Override
     public ResultData searchRole(TtRole role, Integer currentPage, Integer pageSize) {
-        int totalRecords=0;
-        if(role.getRolename()==null){
-            totalRecords= roleDao.count();
-        }
-         PageHelper.startPage(currentPage, pageSize);
-        List<TtRole> list= roleDao.searchRole(role);
-        totalRecords=list.size();
+        Page<?> page=PageHelper.startPage(currentPage, pageSize);
+        List<TtRole> list=roleDao.searchRole(role);
+        log.info("查询到"+list.size());
 
-        PageInfo<TtRole> pageInfo=new PageInfo<>(totalRecords,currentPage,pageSize,list);
+        com.github.pagehelper.PageInfo<TtRole> pageInfo = new com.github.pagehelper.PageInfo<>(list);
         return ResultData.ofSuccess(pageInfo);
     }
 
@@ -135,4 +131,37 @@ public class roleServerimpl implements RoleService {
         roleDao.updateByPrimaryKeySelective(role);
         return ResultData.ofSuccess("");
     }
+
+    @Override
+    public ResultData huifuRole(Integer id) {
+        //恢复角色的同时恢复时用户相关表中的人
+        //获取所有改角色的用户
+        List<TtUserRole> list=trDao.selUseridByroleid(id);
+        //恢复用户的该种角色
+       if(list.size()>0&&list!=null) {
+            for (TtUserRole tr : list) {
+                trDao.huifuUserRole(tr.getId());
+            }
+       }
+        //获取该角色的所有权限
+        List<TtRolePermission> list2= tpDao.selPermissinByRoleId(id);
+        //恢复该角色的所有权限
+        if(list2.size()>0) {
+            log.info("das");
+            for (TtRolePermission tr : list2) {
+
+                tpDao.huifuURolePermission(tr.getId());
+            }
+       }
+        //恢复改种用户
+        roleDao.huifuRole(id);
+        return ResultData.ofSuccess("恢复成功");
+    }
+
+    @Override
+    public ResultData getRole(Integer id) {
+        return ResultData.ofSuccess(roleDao.selectByPrimaryKey(id));
+    }
+
+
 }
