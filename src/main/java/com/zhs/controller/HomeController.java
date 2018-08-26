@@ -31,4 +31,10 @@ public class HomeController {
     public String forbidden(){
         return "403";
     }
+
+    @ApiOperation(value="跳转注册的页面", notes="返回的是页面")
+    @GetMapping("/register")
+    public String register(){
+        return "index/register";
+    }
 }
