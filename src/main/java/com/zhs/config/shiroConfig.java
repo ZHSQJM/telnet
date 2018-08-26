@@ -62,7 +62,9 @@ public class ShiroConfig {
       role:该资源必须得到角色权限才可以访问
        */
       Map<String,String> filterMap=new LinkedHashMap<String,String>();
-      filterMap.put("/test","anon");
+      filterMap.put("/logout", "logout");
+      filterMap.put("/register", "anon");//注册页面
+      filterMap.put("/user/add", "anon");//新增用户
       filterMap.put("/js/**","anon");
       filterMap.put("/css/**","anon");
       filterMap.put("/favicon.ico","anon");
@@ -80,6 +82,7 @@ public class ShiroConfig {
       filterMap.put("/**","authc");
       //修改认证失败跳转的登录页面  默认的是login.jsp
       shiroFilterFactoryBean.setLoginUrl("/tologin");
+      //退出访问
       shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
       shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
       return  shiroFilterFactoryBean;
