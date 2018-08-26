@@ -21,6 +21,8 @@ public interface TtUserMapper {
 
     void delUser(Integer id);
 
+    //恢复
+    void huifuUser(int id);
     List<TtUser> searchUser(TtUser user);
 
    /* 查询总记录*/

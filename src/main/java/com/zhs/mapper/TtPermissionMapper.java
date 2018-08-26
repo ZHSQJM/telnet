@@ -28,6 +28,11 @@ public interface TtPermissionMapper {
     List<TtPermission> findPermissinByroleId(int roleid);
     //获取sort的最大值
     Integer maxsort();
-
+//删除
     void delPermission(int perid);
+
+    //获取所有的资源
+    List<TtPermission> findPerLevelOne(TtPermission ttPermission);
+
+    int count();
 }

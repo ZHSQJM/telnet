@@ -23,6 +23,9 @@ public interface TtRoleMapper {
    //删除角色
     void delRole(int roleid);
 
+    //恢复角色
+    void  huifuRole(int roleid);
+
     //分页显示角色列表
     List<TtRole> searchRole(TtRole role);
 

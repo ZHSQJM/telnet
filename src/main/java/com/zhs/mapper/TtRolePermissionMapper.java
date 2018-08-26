@@ -23,4 +23,6 @@ public interface TtRolePermissionMapper {
 
 
   void delURolePermission(int id);
+
+  void huifuURolePermission(int id);
 }

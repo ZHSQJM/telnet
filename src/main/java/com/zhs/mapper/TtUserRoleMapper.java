@@ -25,4 +25,6 @@ public interface TtUserRoleMapper {
     List<TtUserRole> selUseridByroleid(Integer id);
 
    void delUserRole(int roleid);
+
+    void huifuUserRole(int roleid);
 }
