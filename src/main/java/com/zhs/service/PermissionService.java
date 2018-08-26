@@ -30,4 +30,7 @@ public interface PermissionService {
 
     //更新权限
     ResultData updatePermission(TtPermission ttPermission);
+
+    //查找所有的一级资源
+    ResultData findPerLevelOne(TtPermission ttPermission,Integer currentPage, Integer pageSize);
 }

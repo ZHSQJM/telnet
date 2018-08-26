@@ -24,6 +24,8 @@ public interface UserService {
 
     ResultData updateUser(TtUser user);
 
+    ResultData huifuUser(Integer id);
+
     ResultData findUserById(Integer id);
 
     ResultData findRoleByUserId(int userid);

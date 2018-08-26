@@ -2,6 +2,7 @@ package com.zhs.service;
 
 import com.zhs.pojo.TtLoginLog;
 import com.zhs.pojo.TtReqLog;
+import com.zhs.util.ResultData;
 
 /**
  * Created with IDEA
@@ -17,4 +18,7 @@ public interface LogService {
 
     //请求路径
     public void addReqLog(TtReqLog reqLog);
+
+    //今天的访问量
+    ResultData count();
 }

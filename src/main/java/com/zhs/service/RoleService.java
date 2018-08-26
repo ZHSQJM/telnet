@@ -30,4 +30,10 @@ public interface RoleService {
 
     //更新角色
     ResultData updateRole(TtRole role);
+
+    //恢复角色
+    ResultData huifuRole(Integer id);
+
+    //根据id查找角色
+    ResultData getRole(Integer id);
 }

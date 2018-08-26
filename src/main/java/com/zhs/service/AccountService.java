@@ -14,6 +14,9 @@ public interface AccountService {
     //查询所有人的账号
     ResultData searchAccount(TtAccount account,Integer currentPage,Integer pageSize);
 
+    //根据所属者查询账号
+    ResultData searchAccountByUserId(TtAccount account,Integer currentPage,Integer pageSize);
+
     //添加账号
     ResultData addAccount(TtAccount account,String realname);
 
