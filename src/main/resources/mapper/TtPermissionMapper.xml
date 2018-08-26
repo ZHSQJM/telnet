@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhs.mapper.TtPermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.zhs.pojo.TtPermission" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="perms" property="perms" jdbcType="VARCHAR" />
+    <result column="resUrl" property="resurl" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="parentId" property="parentid" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="ext1" property="ext1" jdbcType="VARCHAR" />
+    <result column="ext2" property="ext2" jdbcType="VARCHAR" />
+    <result column="disable" property="disable" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, icon, perms, resUrl, type, parentId, sort, createtime, updatetime, ext1, 
+    ext2,disable
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from telnet_permission
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from telnet_permission
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhs.pojo.TtPermission" >
+    insert into telnet_permission (id, name, icon, 
+      perms, resUrl, type, 
+      parentId, sort, createtime, 
+      updatetime, ext1, ext2,disable
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+      #{perms,jdbcType=VARCHAR}, #{resurl,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{parentid,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
+      #{updatetime,jdbcType=TIMESTAMP}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR},#{disable,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhs.pojo.TtPermission" >
+    insert into telnet_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="perms != null" >
+        perms,
+      </if>
+      <if test="resurl != null" >
+        resUrl,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="parentid != null" >
+        parentId,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="ext1 != null" >
+        ext1,
+      </if>
+      <if test="ext2 != null" >
+        ext2,
+      </if>
+      <if test="disable != null" >
+        disable,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="perms != null" >
+        #{perms,jdbcType=VARCHAR},
+      </if>
+      <if test="resurl != null" >
+        #{resurl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="disable != null" >
+        #{disable,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhs.pojo.TtPermission" >
+    update telnet_permission
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="perms != null" >
+        perms = #{perms,jdbcType=VARCHAR},
+      </if>
+      <if test="resurl != null" >
+        resUrl = #{resurl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="parentid != null" >
+        parentId = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null" >
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null" >
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="disable != null" >
+        #{disable,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhs.pojo.TtPermission" >
+    update telnet_permission
+    set name = #{name,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      perms = #{perms,jdbcType=VARCHAR},
+      resUrl = #{resurl,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      parentId = #{parentid,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+          disable = #{disable,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="loadAllPer" parameterType="java.util.HashMap" resultType="com.zhs.pojo.TtPermission">
+    SELECT
+    a.id,
+    a.`name`,
+    a.icon,
+    a.perms,
+    a.resUrl,
+    a.type,
+    a.parentId
+    FROM
+    telnet_permission AS a
+    INNER JOIN telnet_role_permission AS b ON a.id = b.resourcesId
+    INNER JOIN telnet_user_role AS d ON b.roleId = d.roleId
+    WHERE
+    d.userid = #{userid} and   b.disable=0
+    <if test="type != null">
+      AND a.type= #{type}
+    </if>
+    <if test="parentid != null">
+      AND a.parentid= #{parentid}
+    </if>
+    ORDER BY a.sort ASC
+  </select>
+
+  <select id="queryAll" resultType="com.zhs.pojo.TtPermission">
+    select  * from telnet_permission where disable=0
+  </select>
+
+  <select id="findPtByParentid" resultType="com.zhs.pojo.TtPermission" parameterType="java.lang.Integer">
+           select  * from  telnet_permission where  parentid=#{parentid} and type=1 and disable=0
+  </select>
+
+  <!-- 根据roleid查找所有的权限-->
+  <select id="findPermissinByroleId" parameterType="java.lang.Integer"  resultType="com.zhs.pojo.TtPermission">
+SELECT a.* from telnet_permission as a INNER JOIN telnet_role_permission as b on a.id=b.resourcesId where a.disable=0 and b.`disable`=0 and b.roleId= #{roleid,jdbcType=INTEGER}
+</select>
+
+  <!-- 获取sort的最大值-->
+  <select id="maxsort" resultType="java.lang.Integer">
+    SELECT MAX(sort) FROM telnet_permission
+  </select>
+
+  <!-- 删除权限-->
+  <select id="delPermission"  parameterType="java.lang.Integer">
+    UPDATE telnet_permission set `disable`=1 where id=#{id,jdbcType=INTEGER}
+  </select>
+
+  <!-- 查找所有的一级资源-->
+  <select id="findPerLevelOne"  resultType="com.zhs.pojo.TtPermission" parameterType="com.zhs.pojo.TtPermission">
+    SELECT * FROM telnet_permission
+    <where>
+      <if test="name != null and name != ''">
+        AND name LIKE "%"#{name}"%"
+      </if>
+      <if test="type != null and type != ''">i
+      AND type=#{type,jdbcType=INTEGER}
+      </if>
+      <if test="parentid != null and parentid != ''">
+        AND parentId = #{parentId,jdbcType=INTEGER}
+      </if>
+      and disable=0
+    </where>
+    ORDER BY createtime
+  </select>
+
+  <select id="count" resultType="java.lang.Integer">
+    select  count(*) from  telnet_permission where disable=0
+
+  </select>
+</mapper>
+
