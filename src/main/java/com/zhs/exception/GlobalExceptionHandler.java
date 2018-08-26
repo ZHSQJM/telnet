@@ -27,7 +27,6 @@ public class GlobalExceptionHandler {
     //实体类上面的参数校验异常
     @ExceptionHandler(BindException.class)
     public ResultData handleBindException(BindException e) {
-        log.error("参数绑定失败");
         BindingResult result = e.getBindingResult();
         FieldError error = result.getFieldError();
         String message = error.getDefaultMessage();
