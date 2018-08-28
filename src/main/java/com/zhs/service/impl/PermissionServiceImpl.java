@@ -128,4 +128,21 @@ public class PermissionServiceImpl implements PermissionService {
         return ResultData.ofSuccess(pageInfo);
 
     }
+
+    @Override
+    public ResultData findPerById(int perid) {
+        TtPermission tp=permmissionDao.selectByPrimaryKey(perid);
+        if(tp.getParentid()==0){
+            tp.setExt1("无上级菜单");
+        }else{
+            TtPermission tp1=permmissionDao.selectByPrimaryKey(tp.getParentid());
+            tp.setExt1(tp1.getName());
+        }
+        return ResultData.ofSuccess(tp);
+    }
+
+    @Override
+    public ResultData findAllPer() {
+        return ResultData.ofSuccess(permmissionDao.findAllPer());
+    }
 }

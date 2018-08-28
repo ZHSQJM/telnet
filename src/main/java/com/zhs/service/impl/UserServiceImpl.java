@@ -129,5 +129,10 @@ public class UserServiceImpl implements UserService {
         return ResultData.ofSuccess(  roleDao.findRoleById(userid));
     }
 
+    @Override
+    public ResultData getAll(TtUser user) {
+        return ResultData.ofSuccess(userDao.searchUser(user));
+    }
+
 
 }

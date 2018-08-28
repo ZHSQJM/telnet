@@ -2,10 +2,7 @@ package com.zhs.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.zhs.mapper.TtPermissionMapper;
-import com.zhs.mapper.TtRoleMapper;
-import com.zhs.mapper.TtRolePermissionMapper;
-import com.zhs.mapper.TtUserRoleMapper;
+import com.zhs.mapper.*;
 import com.zhs.pojo.*;
 import com.zhs.service.RoleService;
 import com.zhs.util.PageInfo;
@@ -41,6 +38,9 @@ public class roleServerimpl implements RoleService {
 
     @Autowired
     private TtUserRoleMapper trDao;
+
+    @Autowired
+    private TtUserMapper userDao;
 
     @Override
     @Transactional
@@ -161,6 +161,16 @@ public class roleServerimpl implements RoleService {
     @Override
     public ResultData getRole(Integer id) {
         return ResultData.ofSuccess(roleDao.selectByPrimaryKey(id));
+    }
+
+    @Override
+    public ResultData getUserByRoleId(int role) {
+        List<TtUser> list=new ArrayList<>();
+       List<TtUserRole> list1= trDao.selUseridByroleid(role);
+       for(TtUserRole tr:list1){
+           list.add( userDao.selectByPrimaryKey(tr.getUserid()));
+       }
+        return ResultData.ofSuccess(list);
     }
 
 
