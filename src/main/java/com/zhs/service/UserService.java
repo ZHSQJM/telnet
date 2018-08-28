@@ -29,4 +29,5 @@ public interface UserService {
     ResultData findUserById(Integer id);
 
     ResultData findRoleByUserId(int userid);
+    ResultData getAll(TtUser user);
 }

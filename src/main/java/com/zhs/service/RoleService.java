@@ -36,4 +36,6 @@ public interface RoleService {
 
     //根据id查找角色
     ResultData getRole(Integer id);
+
+    ResultData getUserByRoleId(int role);
 }

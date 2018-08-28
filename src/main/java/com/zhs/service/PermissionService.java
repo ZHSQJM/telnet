@@ -33,4 +33,10 @@ public interface PermissionService {
 
     //查找所有的一级资源
     ResultData findPerLevelOne(TtPermission ttPermission,Integer currentPage, Integer pageSize);
+
+    //根据id获取权限
+
+    ResultData findPerById(int perid);
+
+    ResultData findAllPer();
 }

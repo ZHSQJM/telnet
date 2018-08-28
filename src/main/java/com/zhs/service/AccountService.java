@@ -1,6 +1,7 @@
 package com.zhs.service;
 
 import com.zhs.pojo.TtAccount;
+import com.zhs.pojo.TtUser;
 import com.zhs.util.ResultData;
 
 /**
@@ -19,5 +20,7 @@ public interface AccountService {
 
     //添加账号
     ResultData addAccount(TtAccount account,String realname);
+
+
 
 }
