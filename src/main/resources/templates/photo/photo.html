@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>图片管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="../assets/images/favicon.ico">
+</head>
+<style>
+    body{
+        background:#f1f1f1;
+    }
+    h4{
+        padding-bottom: 15px;
+        border-bottom: thin solid #999;
+    }
+    .mian{
+        padding:20px;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="../css/image/style.css">
+<link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="../css/app.min.css" rel="stylesheet" type="text/css" />
+<link href="../css/icons.min.css" rel="stylesheet" type="text/css" />
+<body>
+<div th:include="common/menu"></div>
+<div class='mian'>
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item">图片管理</a></li>
+                                <li class="breadcrumb-item active">图片管理</li>
+                            </ol>
+                        </div>
+                        <h4 class="page-title">图片管理</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <button type="button" class="btn btn-primary mb-2" onclick="showadd()"> <i class="dripicons-cloud-upload mr-1"></i> 上传图片</button>
+                            <!--
+                                 <h4>图片集合切换</h4>
+                             </div>-->
+                            <div class="case" id="urlimage">
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+<script type="text/javascript" src="../js/image/jquery.min.js"></script>
+<script type="text/javascript" src='../js/image/lightBox.js'></script>
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $.LightBox({speed:500})
+    });
+    var page="1";
+    var pagesize="20";
+        $.ajax({
+            //几个参数需要注意一下
+            type: "GET",//方法类型
+            async: false,
+            dataType: "json",//预期服务器返回的数据类型
+            data:{
+                currentPage: page,
+                pageSize:pagesize
+            },
+            url: "/photo/searchImage" ,//url
+            success: function (rt) {
+                var html="";
+                var data=rt.data.list;
+
+                if(rt.code==200){
+                    console.log(rt.data.list);
+                    for(var  i=0;i<data.length;i++){
+                        console.log(i);
+                        html+="<img class='js-lightBox' data-title="+data[i].name+" data-group='group-1'  src="+data[i].url+" width='300' height='300' />";
+                        console.log(html);
+                    }
+
+                    $("#urlimage").append(html);
+
+                }
+            }
+        });
+
+</script>
+</body>
+</html>
