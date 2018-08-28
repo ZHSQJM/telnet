@@ -1,4 +1,4 @@
-package com.zhs.util;
+package com.zhs.upload;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
