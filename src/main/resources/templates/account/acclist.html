@@ -23,10 +23,10 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item">系统设置</a></li>
-                            <li class="breadcrumb-item active">角色管理</li>
+                            <li class="breadcrumb-item active">账号管理</li>
                         </ol>
                     </div>
-                    <h4 class="page-title">角色管理</h4>
+                    <h4 class="page-title">账号管理</h4>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <!-- <h4 class="header-title">查询</h4>-->
+                        <button type="button" class="btn btn-primary mb-2" onclick="showadd()"> <i class="mdi mdi-account-plus mr-1"></i> 新增账号</button>
                         <table class="table table-hover mb-0" id="table-zhs">
                             <thead>
                             <tr>
@@ -55,25 +55,8 @@
                             </tbody>
                         </table>
                         <p>共<span id="total"></span>条数据,共<span id="page"></span>页,当前页是第<span id="current"></span>页
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-end" id="pagesize">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1">上一页</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">下一页</a>
-                                    </li>
-                                </ul>
-                            </nav>
-
-
                         </p>
-
                     </div>
-
                 </div>
             </div>
         </div>
@@ -88,13 +71,24 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <h6>模态中的文本</h6>
-                <p>这里其实是一个P标签</p>
-                <hr>
-                <h6>溢出文本以显示滚动行为</h6>
-                <p>这里其实也是一个P标签</p>
-                <p>这里还是一个P标签</p>
-                <p>emmm  还是一个P标签</p>
+                <div class="modal-body">
+                    <label for="website">网站地址</label>
+                    <input class="form-control"  id="website" required name="website" placeholder="输入网站地址">
+                    <label for="webname">网站名称</label>
+                    <input class="form-control"  id="webname" required name="webname" placeholder="请输入网站名称">
+                    <label for="username">登录名</label>
+                    <input class="form-control"  id="username" required name="username" placeholder="请输入登录名">
+                    <label for="nickname">昵称</label>
+                    <input class="form-control"  id="nickname" required name="nickname" placeholder="请输入登录名">
+                    <label for="phone">角色描述</label>
+                    <input class="form-control"  id="phone" required name="phone" placeholder="请输入昵称">
+                    <label for="password">登录密码</label>
+                    <input class="form-control"  id="password" required name="password" placeholder="请输入登录密码">
+                    <label for="userid">选择用户</label>
+                    <select class="wide" data-plugin="customselect" id="userid">
+
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-dismiss="modal">关闭</button>
@@ -108,9 +102,11 @@
 <div th:include="common/footer"></div>
 <script>
     var page="1";
-    var pagesize="10";
-    getdata(page,pagesize);
-
+    var pagesize="20";
+    $(function(){
+        getuser();
+        getdata(page,pagesize)
+    });
     function getdata(page,pagesize){
         $.ajax({
             //几个参数需要注意一下
@@ -125,7 +121,6 @@
             success: function (rt) {
                 var html="";
                 var data=rt.data.list;
-                console.log(rt.data)
                 if(rt.code==200){
                     for(var i=0;i<data.length;i++){
                         html+="<tr><td scope=‘row’>"+(i+1)+"</td><td>"+data[i].website+"</td><td>"+data[i].webname+"</td><td>"+data[i].username+"</td><td>"+data[i].nickname+"</td>" +
@@ -142,15 +137,36 @@
                     $("#page").html(rt.data.pages);
                     $("#current").html(rt.data.pageNum);
 
-            /*    <li class="page-item"><a class="page-link" href="#">1</a></li>*/
                 }
             }
         });
 
     }
-
+function showadd(){
+    $("#update1").click();
+}
     function updateaccount(id) {
-        $("#update1").click();
+       // $("#update1").click();
+    }
+    function getuser() {
+        $.ajax({
+            //几个参数需1要注意一下
+            type: "GET",//方法类型
+            async: false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/user/getall",//url
+            success: function (rt) {
+                if (rt.code == 200) {
+                    var data = rt.data;
+                    console.log(data);
+                    var html = "";
+                    for (var i = 0; i < data.length; i++) {
+                        html += "<option value=" + data[i].id + ">" + data[i].username + "</option>"
+                    }
+                    $("#userid").append(html);
+                }
+            }
+        });
     }
 </script>
 <script src="../js/vendor.min.js"></script>
@@ -161,6 +177,5 @@
 <!-- App js -->
 <script src="../js/vendor/sweetalert2.min.js"></script>
 <script src="../js/pages/sweet-alerts.init.js"></script>
-
 </body>
 </html>
