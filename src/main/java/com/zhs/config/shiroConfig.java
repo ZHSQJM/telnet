@@ -70,6 +70,7 @@ public class ShiroConfig {
       filterMap.put("/favicon.ico","anon");
       filterMap.put("/fonts/**","anon");
       filterMap.put("/image/**","anon");
+      filterMap.put("/layui/**","anon");
       filterMap.put("/assets/**","anon");
       filterMap.put("/login","anon");
       List<TtPermission> list=permissionService.queryAll();
