@@ -26,8 +26,13 @@ spring:
    content-type: text/html
    mode: HTML5
    cache: false
-
-
+#上传配置
+  http:
+      # multipart config
+    multipart:
+      enabled: true
+      file-size-threshold: 5MB
+      max-request-size: 20MB
 
 
 #mybatis
@@ -41,16 +46,16 @@ pagehelper:
     params: count=countSql
 server:
   port: 8888
-#logging:
- # level:
-  #   com.zhs.mapper : debug
+logging:
+  level:
+    com.zhs.mapper : debug
 
 
 # 七牛云配置
 # bucket是创建的存储空间名
 # path对应存储空间的访问域名
 qiniu:
-  accessKey: zHy3Im3Yjxxxxxx
-  secretKey: LQR4mszxxxxxxxx
-  bucket: xyz
-  path: http://xxx.bkt.clouddn.com
+  accessKey: Sp760x_xY5jLb8HeTnUrUxXQVX52VweKie1QNjis
+  secretKey: lFgRMpXJkXEFg1yUuqouZ0XN0cR228RLdA8O9W1H
+  bucket: telnet-photo
+  cdnPrefix: http://pe3momhpf.bkt.clouddn.com
