@@ -44,6 +44,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                        <button type="button" class="btn btn-primary mb-2" onclick="showadd()"> <i class="mdi mdi-account-plus mr-1"></i> 新增资源</button>
                         <!-- <h4 class="header-title">查询</h4>-->
                         <table class="table table-hover mb-0" id="table-zhs">
                             <thead>
@@ -73,20 +74,120 @@
 </div>
 </div> <!-- end container -->
 </div>
-<div th:include="common/footer"></div>
-<script>
-    $(function () {
+<form id="form" method="post">
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">资源编辑</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <label for="name">资源名称</label>
+                    <input class="form-control"  id="name" required name="name" placeholder="输入资源名称">
+                    <label for="icon">图标</label>
+                    <input class="form-control"  id="icon" required name="icon">
+                    <label for="perms">权限码</label>
+                    <input class="form-control" id="perms" required name="perms" placeholder="输入权限码">
+                    <label for="resurl">请求路径</label>
+                    <input class="form-control" id="resurl" required name="resurl" placeholder="输入请求路径">
+                    <label for="type">类型</label>
+                    <input class="form-control"  id="type" required name="type">
+                    <label for="per">父资源</label>
+                    <select class="wide" data-plugin="customselect" id="per">
 
+                    </select>
+                    <label for="createtime">创建时间</label>
+                    <input class="form-control"  id="createtime" required name="createtime">
+                    <label for="updatetime">更新时间</label>
+                    <input class="form-control"  id="updatetime" required name="updatetime">
+                    <input type="hidden" id="pid" >
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" id="close2" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="update()">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</form>
+<form id="form2" method="post">
+    <div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel2">资源新增</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <label for="name2">资源名称</label>
+                    <input class="form-control"  id="name2" required name="name" placeholder="输入资源名称">
+                    <label for="icon2">图标</label>
+                    <input class="form-control"  id="icon2" required name="icon">
+                    <label for="perms2">权限码</label>
+                    <input class="form-control" id="perms2" required name="perms" placeholder="输入权限码">
+                    <label for="resurl2">请求路径</label>
+                    <input class="form-control" id="resurl2" required name="resurl" placeholder="输入请求路径">
+                    <label for="type2">类型</label>
+                    <input class="form-control"  id="type2" required name="type">
+                    <label for="parentid2">父资源</label>
+                    <select class="wide" data-plugin="customselect" id="parentid2">
+                            <option value="0">没有东西</option>
+                            <option value="1">一些选择</option>
+                            <option value="2">另一选择</option>
+                            <option value="3" disabled>禁用选项</option>
+                            <option value="4">土豆</option>
+                    </select>
+                <!--    <input class="form-control"  id="parentid2" required name="parentid">-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" id="close" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="update()">保存更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</form>
+<div th:include="common/footer"></div>
+<button type="button" id="update1" style="display: none" data-toggle="modal" data-target="#myModal"></button>
+<button type="button" id="update2" style="display: none" data-toggle="modal" data-target="#myModal2"></button>
+<script>
+var page="1";
+var pageSize="20"
+$(function(){
+    list(page,pageSize);
+});
+    $.ajax({
+        //几个参数需1要注意一下
+        type: "GET",//方法类型
+        async: false,
+        dataType: "json",//预期服务器返回的数据类型
+        url: "/per/loadmda",//url
+        success: function (rt) {
+            if (rt.code==200) {
+                var data = rt.data;
+                var html="";
+                for (var i = 0; i < data.length; i++) {
+                    html+="<option value="+data[i].id+">"+data[i].name+"</option>"
+                }
+                console.log(html);
+                $("#per").append(html);
+            }
+        }
     });
+function list(page,pageSize){
     $.ajax({
         //几个参数需1要注意一下
         type: "GET",//方法类型
         async: false,
         dataType: "json",//预期服务器返回的数据类型
         url: "/per/getAllPerms",//url
+        data:{
+            "currentPage":page,
+            "pageSize":pageSize
+        },
         success: function (rt) {
             var data=rt.data.list;
-            console.log(rt)
             for(var i=0;i<data.length;i++){
            if(data[i].type==1){
                data[i].type="菜单"
@@ -103,7 +204,7 @@
                     "<td><div class='btn-group dropdown'><a href='javascript: void(0);' class='dropdown-toggle arrow-none btn btn-light btn-sm' data-toggle='dropdown' aria-expanded='false'>" +
                 "<i class='mdi mdi-dots-horizontal'></i></a>" +
                 "<div class='dropdown-menu dropdown-menu-right'>" +
-                "<a class='dropdown-item' href='#' onclick='updateuser("+data[i].id+")'><i class='mdi mdi-pencil mr-1 text-muted'></i>编辑</a>" +
+                "<a class='dropdown-item' href='#' onclick='updateper("+data[i].id+")'><i class='mdi mdi-pencil mr-1 text-muted'></i>编辑</a>" +
                 "<a class='dropdown-item' href='#' onclick='deleteuser("+data[i].id+")'><i class='fe-x mr-1 text-muted'></i>删除</a>" +
                 "</div></div>" +
                     "</tr>"
@@ -111,6 +212,57 @@
             }
         }
     });
+}
+    function updateper(id) {
+        $.ajax({
+            //几个参数需1要注意一下
+            type: "GET",//方法类型
+            async: false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/per/findPerById",//url
+            data: {
+                id: id
+            },
+            success: function (rt) {
+                if(rt.code==200){
+
+                    var data=rt.data;
+                    console.log(data)
+                    if(data.type==1){
+                        data.type="菜单"
+                    }else{data.type="按钮"}
+                    var sid=data.parentid;
+                    console.log("选中的id是"+sid)
+                    var optionArr = $("#per option");
+                    for (var i = 0; i <optionArr.length; i++) {
+                        console.log(optionArr[i].value)
+                        if (optionArr[i].value == sid) {
+                            // 选项值与变量相同
+                            console.log("存在相同的值"+sid);
+                            optionArr[i].selected=true;           // 设置下拉选择框的选中索引号
+                        }
+                    }
+                    $("#pid").val(data.id);
+                    $("#name").val(data.name);
+                    $("#icon").val(data.icon);
+                    $("#perms").val(data.perms);
+                    $("#resurl").val(data.resurl);
+                    $("#type").val(data.type);
+                    $("#parentid").val(data.ext1);
+                    $("#createtime").val(data.createtime);
+                    $("#updatetime").val(data.updatetime);
+                    $("#update1").click();
+                }
+
+            }
+        });
+
+    }
+    function showadd() {
+        $("#update2").click();
+    }
+
+
 </script>
 <!-- -->
 <!-- App js -->
