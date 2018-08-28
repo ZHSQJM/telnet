@@ -75,22 +75,11 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
-
-                    <ul>
-                        <li>dasd</li>
-                        <li>dasd</li>
-                        <li>dasd</li><li>dasd</li><li>dasd</li>
-
-
+                    <ul id="user">
                     </ul>
-                  <!--  <label for="rolename">角色名</label>
-                    <input class="form-control"  id="rolename1" required name="rolename" placeholder="输入角色名">
-                    <label for="roledesc">角色描述</label>
-                    <input class="form-control"  id="roledesc1" required name="roledesc" placeholder="请简述描述">-->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" id="close2" data-dismiss="modal">关闭</button>
-                  <!--  <button type="button" class="btn btn-primary" onclick="add()">保存</button>-->
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -297,7 +286,31 @@
         });
     }
     function showUser(id) {
-        $("#update3").click();
+        $("#user").html("");
+        $.ajax({
+            //几个参数需1要注意一下
+            type: "GET",//方法类型
+            async: false,
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/role/getusers",//url
+            data: {
+                "id":id
+            },
+            success: function (rt) {
+               var data=rt.data;
+                var html="";
+                if(data==""){
+                }else{
+                    for(var i=0;i<data.length;i++){
+                        html+="<div>"+data[i].username+"</div>"
+                    }
+                    $("#user").append(html);
+                }
+                $("#update3").click();
+            },
+
+    });
+
     }
 </script>
 <!-- -->
