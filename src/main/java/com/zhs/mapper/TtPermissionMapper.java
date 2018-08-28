@@ -35,4 +35,6 @@ public interface TtPermissionMapper {
     List<TtPermission> findPerLevelOne(TtPermission ttPermission);
 
     int count();
+
+    List<TtPermission> findAllPer();
 }
