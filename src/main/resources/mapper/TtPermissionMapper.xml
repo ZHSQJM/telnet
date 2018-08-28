@@ -253,7 +253,10 @@ SELECT a.* from telnet_permission as a INNER JOIN telnet_role_permission as b on
 
   <select id="count" resultType="java.lang.Integer">
     select  count(*) from  telnet_permission where disable=0
+  </select>
 
+  <select id="findAllPer"  resultType="com.zhs.pojo.TtPermission">
+    select * from  telnet_permission where disable=0 and type=1 and parentId=0
   </select>
 </mapper>
 
