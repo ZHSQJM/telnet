@@ -86,4 +86,10 @@ public class UserController {
     public ResultData huifuUser(int id){
         return  userService.huifuUser(id);
     }
+
+    @GetMapping(value="getall")
+    @ApiOperation(value="删除用户的接口", notes="返回的是是否删除成功")
+    public ResultData getAll(TtUser user){
+        return  userService.getAll(user);
+    }
 }

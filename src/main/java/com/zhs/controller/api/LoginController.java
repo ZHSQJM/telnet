@@ -37,7 +37,7 @@ public class LoginController {
         UsernamePasswordToken token=new UsernamePasswordToken(user.getUsername(),user.getPassword());
             subject.login(token);
             if(savedRequest==null){
-                return ResultData.ofSuccess("/");
+                return ResultData.ofSuccess("/index");
             }
             return ResultData.ofSuccess(savedRequest.getRequestUrl());
     }

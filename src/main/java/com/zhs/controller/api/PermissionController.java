@@ -73,4 +73,17 @@ public class PermissionController {
        // ttPermission.setName("管理");
         return permissionService.findPerLevelOne(ttPermission,currentPage,pageSize);
     }
+
+    @GetMapping("/findPerById")
+    @ApiOperation(value="根据id获取权限", notes="根据id获取权限")
+    public ResultData findPerById(int id){
+        return permissionService.findPerById(id);
+    }
+
+    @GetMapping("/loadmda")
+    @ApiOperation(value="用来获取所有的菜单权限", notes="显示左侧菜单的权限")
+    public ResultData allMenu(){
+
+        return permissionService.findAllPer();
+    }
 }

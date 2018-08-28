@@ -106,4 +106,11 @@ public class RoleController {
     public ResultData getRole(int id){
         return roleService.getRole(id);
     }
+
+    //恢复角色的时候，无法恢复该觉得的权限 ，需要重新分配权限
+    @GetMapping("/getusers")
+    @ApiOperation(value="获取角色下的用户", notes="返回的时角色下的用户")
+    public ResultData getusers(int id){
+        return roleService.getUserByRoleId(id);
+    }
 }

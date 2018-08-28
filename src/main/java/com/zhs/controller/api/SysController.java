@@ -43,4 +43,16 @@ public class SysController {
     public  String selflist(){
         return "account/selflist";
     }
+
+    //图片列表
+    @RequestMapping("/photo")
+    public  String photo(){
+        return "photo/photo";
+    }
+
+    //记事本
+    @RequestMapping("/text")
+    public  String text(){
+        return "text/text";
+    }
 }
