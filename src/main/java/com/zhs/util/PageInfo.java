@@ -2,7 +2,6 @@ package com.zhs.util;
 
 import lombok.Data;
 
-import javax.jnlp.IntegrationService;
 import java.util.List;
 
 /**
